@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_payment_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">account_payment_report_wizard_view_form</field>
+            <field name="model">account.payment.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de pagos">
+                    <sheet>
+                        <group>
+                            <group>
+                                <!--Selección del periodo contable-->
+                                <field name="account_period"/>
+                                <field name="company_id" invisible="1"/>
+                                <label for="initial_date" string="Fechas" invisible="account_period != 'custom'"/>
+                                <div class="o_row" invisible="account_period != 'custom'">
+                                    <field name="initial_date" widget="daterange"
+                                           options="{'related_end_date': 'end_date'}"/>
+                                    <span>a</span>
+                                    <field name="end_date" widget="daterange"
+                                           options="{'related_start_date': 'initial_date'}"/>
+                                </div>
+                                <field name="report_type"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="create_report" type="object" string="Abrir" class="btn btn-primary"/>
+                            <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="account_payment_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Reporte de pagos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.payment.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="account_payment_report_wizard_menuitem" name="Reporte de pagos"
+                  parent="account_reports.account_reports_audit_reports_menu"
+                  action="account_payment_report_wizard_action" sequence="1"/>
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_payment_report_view_tree" model="ir.ui.view">
+            <field name="name">account_payment_report_view_tree</field>
+            <field name="model">account.payment.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de pagos" create="0" delete="0" edit="0">
+                    <field name="rfc_emitter"/>
+                    <field name="invoice_id" widget="many2one"/>
+                    <field name="invoice_date"/>
+                    <field name="rfc_receiver"/>
+                    <field name="payment_id" widget="many2one" optional="show"/>
+                    <field name="payment_date" optional="show"/>
+                    <field name="payment_method_id" widget="many2one" optional="show"/>
+                    <field name="currency_id" widget="many2one" optional="show"/>
+                    <field name="invoice_amount" optional="show"/>
+                    <field name="amount_total" optional="show"/>
+                    <field name="journal_id" widget="many2one"/>
+                    <field name="iva_amount" optional="show"/>
+                    <field name="ieps_amount" optional="show"/>
+                    <field name="iva_ret_amount" optional="show"/>
+                    <field name="isr_ret_amount" optional="show"/>
+                    <field name="subtotal_payment" optional="show"/>
+                    <field name="payment_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_payment_report_view_search" model="ir.ui.view">
+            <field name="name">account_payment_report_view_tree</field>
+            <field name="model">account.payment.report</field>
+            <field name="arch" type="xml">
+                <search string="Reporte de pagos">
+                    <field name="invoice_id" string="Factura"/>
+                    <field name="payment_id"/>
+                    <field name="currency_id"/>
+                    <field name="journal_id"/>
+                    <filter name="Clientes" string="Clientes" domain="[('report_type','=','in')]"/>
+                    <filter name="Proveedores" string="Proveedores" domain="[('report_type','=','out')]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Tipo" name="report_type" context="{'group_by': 'report_type'}"/>
+                        <filter string="Fecha" name="invoice_date" context="{'group_by': 'invoice_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="account_payment_report_action" model="ir.actions.act_window">
+            <field name="name">Reporte de pagos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.payment.report</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>
