@@ -10,6 +10,7 @@
                     <field name="display_on_footer"/>
                 </xpath>
                 <xpath expr="//field[@name = 'code']" position="after">
+                    <field name="payment_provider_id" invisible="1"/>
                     <field name="df_style"/>
                 </xpath>
             </field>
