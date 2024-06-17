@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="category_boveda_fiscal" model="ir.module.category">
+            <field name="name">Bóveda fiscal</field>
+            <field name="sequence">1000</field>
+        </record>
+
+        <record id="user_type_boveda_fiscal" model="ir.module.category">
+            <field name="name">Bóveda fiscal</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="user_boveda_fiscal" model="res.groups">
+            <field name="name">Usuario bóveda fiscal</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.user_type_boveda_fiscal"/>
+        </record>
+
+        <record id="manager_boveda_fiscal" model="res.groups">
+            <field name="name">Administrador bóveda fiscal</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.user_type_boveda_fiscal"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.user_boveda_fiscal')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_facturas_de_clientes" model="res.groups">
+            <field name="name">Facturas de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_facturas_de_proveedores" model="res.groups">
+            <field name="name">Facturas de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_notas_de_credito_de_clientes" model="res.groups">
+            <field name="name">Notas de crédito de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_notas_de_credito_de_proveedores" model="res.groups">
+            <field name="name">Notas de crédito de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_rep_de_clientes" model="res.groups">
+            <field name="name">REP de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_rep_de_proveedores" model="res.groups">
+            <field name="name">REP de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_nomina_empleados" model="res.groups">
+            <field name="name">Nómina de empleados</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_payroll_de_proveedores" model="res.groups">
+            <field name="name">Nómina propia</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_factura_traslado_de_clientes" model="res.groups">
+            <field name="name">Factura de traslado clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_factura_traslado_de_proveedores" model="res.groups">
+            <field name="name">Factura de traslado proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+    </data>
+</openerp>

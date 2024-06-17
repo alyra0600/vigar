@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="cfdi_xlsx_link_view_form" model="ir.ui.view">
+           <field name="name">cfdi_xlsx_link_view_form</field>
+           <field name="model">cfdi.xlsx.link</field>
+           <field name="arch" type="xml">
+               <form string="Relación con excel">
+                   <sheet>
+                       <group>
+                           <field name="file_name" invisible="1"/>
+                           <field name="file_data" filename="file_name"/>
+                           <field name="company_id" readonly="1"/>
+                       </group>
+                   </sheet>
+                   <footer>
+                       <button name="read_xlsx" string="Procesar" class="btn btn-primary" type="object"/>
+                       <button special="cancel" string="Cerrar" class="btn btn-secondary" type="object"/>
+                   </footer>
+               </form>
+           </field>
+       </record>
+
+        <record id="cfdi_xlsx_link_action" model="ir.actions.act_window">
+            <field name="name">Relacionar Excel</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cfdi.xlsx.link</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="cfdi_xlsx_link_action" id="menu_cfdi_xlsx_link" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" sequence="50"/>
+
+    </data>
+</odoo>

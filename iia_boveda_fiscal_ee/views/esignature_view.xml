@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="iia_boveda_fiscal_esignature_certificate_list_action" model="ir.actions.act_window">
+            <field name="name">iia_boveda_fiscal.esignature.certificate.action</field>
+            <field name="res_model">iia_boveda_fiscal.esignature.certificate</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Crear el primer certificado</p>
+            </field>
+        </record>
+
+        <record id="iia_boveda_fiscal_esignature_certificate_form_view" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.esignature.certificate.form</field>
+            <field name="model">iia_boveda_fiscal.esignature.certificate</field>
+            <field name="arch" type="xml">
+                <form string="Certificados">
+                    <sheet>
+                        <group>
+                            <field name="content" string="Certificado"/>
+                            <field name="key" string="Clave de certificado"/>
+                            <field name="password" password="True" string="Contraseña"/>
+                            <label for="date_start" string="Fecha de validación"/>
+                            <div>
+                                <field name="date_start" string="Fecha de inicio"/> -
+                                <field name="date_end" string="Fecha final"/>
+                            </div>
+                            <field name="serial_number" string="Número serial"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="iia_boveda_fiscal_esignature_certificate_search_view" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.esignature.certificate.search</field>
+            <field name="model">iia_boveda_fiscal.esignature.certificate</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="holder" string="Titular"/>
+                    <field name="holder_vat" string="RFC"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="iia_boveda_fiscal_esignature_certificate_tree_view">
+            <field name="name">iia_boveda_fiscal.esignature.certificate.tree</field>
+            <field name="model">iia_boveda_fiscal.esignature.certificate</field>
+            <field name="arch" type="xml">
+                <tree string="Certificados">
+                    <field name="holder" string="Titular"/>
+                    <field name="holder_vat" string="RFC"/>
+                    <field name="serial_number" string="Número serial"/>
+                    <field name="date_start" string="Fecha de inicio"/>
+                    <field name="date_end" string="Fecha final"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>

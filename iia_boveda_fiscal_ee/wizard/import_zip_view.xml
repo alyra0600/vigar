@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_import_zip_form">
+        <field name="name">import.zip.form</field>
+        <field name="model">iia.import.zip</field>
+        <field name="arch" type="xml">
+            <form string="Importar archivo ZIP">
+                <sheet>
+                    <field name="state" invisible="1"/>
+                    <group name="datos" string="Subir archivo" invisible="state == 'done'">
+                        <field name="file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="company_id"/>
+                    </group>
+                    <group invisible="state == 'draft'">
+                        <separator string="Importación finalizada" colspan="4"/>
+                    </group>
+                    <field name="result" readonly="1" nolabel="1" invisible="state == 'draft'"/>
+                </sheet>
+                <footer>
+                    <button name="import_zip" invisible="state == 'done'" string="Importar" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cerrar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_zip" model="ir.actions.act_window">
+        <field name="name">Importar ZIP</field>
+        <field name="res_model">iia.import.zip</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_zip_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem action="action_import_zip" id="menu_import_zip" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" sequence="40"/>
+
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="boveda_fiscal_ee_account_account_form" model="ir.ui.view">
+            <field name="name">boveda_fiscal_ee_account_account_form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='accounting']" position="after">
+                    <page name="boveda" string="Boveda Fiscal">
+                        <group>
+                            <group>
+                                <field name="tipo_de_comprobante_boveda"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

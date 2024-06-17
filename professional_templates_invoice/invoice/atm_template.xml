@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="INVOICE_atm_document" name="Plantilla ATM">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+
+            <t t-set="cfdi_vals" t-value="o._l10n_mx_edi_decode_cfdi()"/>
+            <t t-set="is_cfdi_signed" t-value="bool(o._get_l10n_mx_edi_signed_edi_document())"/>
+            
+            <div class="header col-12 float-left" t-attf-style="padding-bottom:0px; padding-left:0px; padding-right:0px; color:{{style.text_color}} !important;font-size:{{int(style.header_font)}}px !important;font-family:{{style.font_family}} !important;">
+                <t t-if="style.header">
+                    <div class="col-12 mb4 float-left">
+                        <h4 class="text-center">
+                            <span t-field="company.name" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-size:{{int(style.header_font)+6}}px;font-weight:500;"/>
+                        </h4>
+                        <div class="col-3 float-left" style="padding-left:0px;">
+                            <span t-if="style.logo">
+                                <span itemprop="image" t-field="style.logo" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;style&quot;: &quot;max-width: 200px; display: inline-block; float:left;&quot;}"/>
+                            </span>
+                            <span t-if="not style.logo and company.logo">
+                                <span itemprop="image" t-field="company.logo" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;style&quot;: &quot;max-width: 200px; display: inline-block; float:left;&quot;}"/>
+                            </span>
+                            <span t-if="not style.logo and not company.logo">
+                                <span itemprop="image" t-field="company.logo" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;style&quot;: &quot;max-width: 200px; display: inline-block; float:left;&quot;}"/>
+                            </span>
+                        </div>
+                        <div class="col-3 float-left" style="padding-left:10px;">
+                            <t t-call="professional_templates_invoice.company_address_noname"/>
+                            <div t-if="company.twitter or company.facebook or company.facebook" t-attf-style="display:inline-block; width:auto; padding-right:15px; padding-top:4px; padding-bottom:2px;" class="mb8">
+                                <span t-if="company.twitter" class="fa fa-twitter-square "/> <span t-field="company.twitter"/>  
+                                <span t-if="company.facebook" class="fa fa-facebook-square "/> <span t-field="company.facebook"/>  
+                                <span t-if="company.youtube" class="fa fa-youtube-square "/> <span t-field="company.youtube"/>
+                            </div>
+                        </div>
+                        <div class="col-6 float-right" style="padding-left:10px;">
+
+                            <table width="100%" style="font-size:12px">
+                              <tr>
+                                  <td>
+                                      <strong>
+                                        <span t-if="o.name">
+                                            <span t-if="o.state == 'draft'">Borrador</span>
+                                            <span t-if="o.state == 'cancel'">Cancelado</span>
+                                            <span t-if="o.move_type == 'out_invoice'">Factura</span>
+                                            <span t-if="o.move_type == 'out_refund'">Nota de crédito</span>
+                                            <span t-if="o.move_type == 'in_refund'">Nota de crédito proveedor</span>
+                                            <span t-if="o.move_type == 'in_invoice'">Factura proveedor</span>
+                                        </span>
+                                    </strong>
+                                  </td>
+                                  <td width="2%"/>
+                                  <td>
+                                     <span t-if="o.name"><span style="font-size:14px" t-field="o.name"/></span>
+                                  </td>
+                              </tr>   
+                              <tr>
+                                <td>
+                                    <strong>Fecha y hora certificación:</strong>
+                                </td>
+                                <td width="2%"/>
+                                <td>
+                                    <span style="font-size:14px" t-esc="cfdi_vals.get('stamp_date')"/>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                    <strong>Folio fiscal:</strong>
+                                </td>
+                                <td width="2%"/>
+                                <td>
+                                    <span style="font-size:10px" t-esc="cfdi_vals.get('uuid')"/>
+                                </td>
+                              </tr>
+                              
+                            </table>
+                            
+                        </div>
+                    </div>
+                </t>
+            </div> <!--end of Header-->
+            <!-- START OF PAGE -->
+            <div class="article page" t-attf-data-oe-model="account.move" t-attf-data-oe-id="{{o.id}}" t-attf-style="color:{{style.text_color}} !important;font-size:{{int(style.body_font)}}px !important;font-family:{{style.font_family}} !important;">
+
+                <div>
+                    <table width="100%" style="font-size:11px">
+                        <tr>
+                            <td>
+                                <strong>Datos de factura:</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div t-if="o.partner_id" t-attf-style="color:{{style.cust_color}};font-size:{{int(style.body_font)+2}}px;font-weight:500;">
+                                    <t t-if="o.partner_id.parent_id">
+                                        <span t-field="o.partner_id.parent_id"/>, <span t-if="o.partner_id.title" t-field="o.partner_id.title"/> <span t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="not o.partner_id.parent_id">
+                                        <span t-if="o.partner_id.title" t-field="o.partner_id.title"/> <span t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-if="o.partner_id.vat"><strong>RFC: </strong><span t-field="o.partner_id.vat"/></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <table width="100%" style="font-size:11px">
+                        <tr t-if="o.invoice_date">
+                            <td>
+                                <strong style="white-space:nowrap;">Fecha factura:</strong>
+                            </td>
+                            <td>
+                                <span t-field="o.invoice_date"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong style="white-space:nowrap;">Método de pago: </strong>
+                            </td>
+                            <td>
+                                <span t-field="o.l10n_mx_edi_payment_policy"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong>Certificado Emisor:</strong>
+                            </td>
+                            <td>
+                                <span t-esc="cfdi_vals.get('certificate_number')"/>
+                            </td>
+
+                        </tr>
+                        <tr t-if="o.invoice_date_due">
+                            <td>
+                                <strong style="white-space:nowrap;">Vence:</strong>
+                            </td>
+                            <td>
+                                <span t-field="o.invoice_date_due"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong style="white-space:nowrap;">Forma de pago: </strong>
+                            </td>
+                            <td>
+                                <span t-field="o.l10n_mx_edi_payment_method_id"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong>Certificado SAT:</strong>
+                            </td>
+                            <td>
+                                <span t-esc="cfdi_vals.get('certificate_sat_number')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong style="white-space:nowrap;">Plazo de pago: </strong>
+                            </td>
+                            <td>
+                                <span t-field="o.invoice_payment_term_id.name" style="margin-bottom:1px;"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong style="white-space:nowrap;">Uso CFDI: </strong>
+                            </td>
+                            <td>
+                                <span t-field="o.l10n_mx_edi_usage"/>
+                            </td>
+                            <td width="2%"/>
+                            <td>
+                                <strong>Lugar de emisión:</strong>
+                            </td>
+                            <td>
+                                <span t-esc="cfdi_vals.get('expedition')"/> <span t-field="company.city"/>, <span t-field="company.state_id.code"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                    <!-- DATA-->
+                    <t t-call="professional_templates_invoice.invoice_lines"/>
+                        <!--/DATA-->
+                </div><!--End of PAGE-->
+                <!--FOOTER -->
+                <div class="footer" t-attf-style="font-size:{{style.footer_font}}px !important;font-family:{{style.font_family}} !important;">
+                    <t t-call="professional_templates_invoice.company_footer"/>
+                </div>
+                <!--/FOOTER-->            
+            </template>
+        </data>
+    </odoo>

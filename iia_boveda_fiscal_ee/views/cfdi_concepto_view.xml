@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_iia_boveda_fiscal_cfdi_concepto_form" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.cfdi.concepto.form</field>
+            <field name="model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="CFDI">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="clave_prod_serv"/>
+                                <field name="descuento"/>
+                                <field name="valor_unitario"/>
+                                <field name="descripcion"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                            </group>
+                            <group>
+                                <field name="product_tmpl_id"/>
+                                <field name="account_id"/>
+                                <field name="account_analytic_account_id"/>
+                                <field name="cantidad"/>
+                                <field name="clave_unidad"/>
+                                <field name="importe"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Impuestos">
+                                <field name="tax_ids" colspan="4" nolabel="1">
+                                    <tree string="Impuestos" create="false" delete="false" editable="false">
+                                        <field name="iia_boveda_fiscal_cfdi_concepto_id" invisible="1"/>
+                                        <field name="base"/>
+                                        <field name="impuesto"/>
+                                        <field name="tipo_factor"/>
+                                        <field name="tasa_cuota"/>
+                                        <field name="importe" sum="Total"/>
+                                        <field name="tax_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_iia_boveda_fiscal_cfdi_concepto_tree" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.cfdi.concepto.tree</field>
+            <field name="model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="CFDI Concepto" delete="0" create="0">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    <field name="fecha"/>
+                    <field name="folio"/>
+                    <field name="partner_id_emisor"/>
+                    <field name="partner_id_receptor"/>
+                    <field name="tipo_de_comprobante"/>
+                    <field name="descripcion"/>
+                    <field name="product_tmpl_id"/>
+                    <field name="clave_prod_serv"/>
+                    <field name="cantidad"/>
+                    <field name="clave_unidad"/>
+                    <field name="descuento"/>
+                    <field name="valor_unitario"/>
+                    <field name="importe"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_iia_boveda_fiscal_cfdi_concepto_search" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.cfdi.concepto.search</field>
+            <field name="model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="arch" type="xml">
+                <search string="Buscar">
+                    <field name="company_id"/>
+                    <field name="descripcion"/>
+                    <field name="fecha"/>
+                    <field name="tipo_de_comprobante"/>
+                    <field name="partner_id_emisor"/>
+                    <field name="partner_id_receptor"/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter name="groupby_company" string="Compañia" domain="" context="{'group_by':'company_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="groupby_descripcion" string="Descripcion" domain=""
+                                context="{'group_by':'descripcion'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="groupby_tipo_de_comprobante" string="Tipo de comprobante" domain=""
+                                context="{'group_by':'tipo_de_comprobante'}"/>
+                        <filter name="groupby_folio" string="Folio" domain="" context="{'group_by':'folio'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="groupby_fecha" string="Fecha" domain="" context="{'group_by':'fecha'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="groupby_emisor" string="Emisor" domain=""
+                                context="{'group_by':'partner_id_emisor'}"/>
+                        <filter name="groupby_receptor" string="Receptor" domain=""
+                                context="{'group_by':'partner_id_receptor'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="groupby_version" string="Versión" domain="" context="{'group_by':'version'}"/>
+                        <filter name="groupby_metodo_pago" string="Método de pago" domain=""
+                                context="{'group_by':'metodo_pago'}"/>
+                        <filter name="groupby_moneda" string="Moneda" domain="" context="{'group_by':'moneda'}"/>
+                        <separator orientation="vertical"/>
+
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_iia_boveda_fiscal_cfdi_concepto_pivot" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.cfdi.concepto.pivot</field>
+            <field name="model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="arch" type="xml">
+                <pivot string="Analisis de conceptos de CFDI" disable_linking="True" sample="1">
+                    <field name="partner_id_receptor" type="row"/>
+                    <field name="fecha" type="col"/>
+                    <field name="importe" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_iia_boveda_fiscal_cfdi_form_graph" model="ir.ui.view">
+            <field name="name">iia_boveda_fiscal.cfdi.concepto.graph</field>
+            <field name="model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="arch" type="xml">
+                <graph string="Analisis de conceptos de CFDI" type="line" sample="1" disable_linking="1">
+                    <field name="fecha"/>
+                    <field name="importe" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_boveda_fiscal_cfdi_concepto" model="ir.actions.act_window">
+            <field name="name">CFDI Conceptos</field>
+            <field name="res_model">iia_boveda_fiscal.cfdi.concepto</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem action="action_boveda_fiscal_cfdi_concepto" id="menu_action_boveda_fiscal_cfdi_concepto" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" sequence="200" name="Conceptos CFDI"/>
+
+    </data>
+</odoo>

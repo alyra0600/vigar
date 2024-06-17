@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_iia_wizard_check_sat_status_cfdi_form" model="ir.ui.view">
+        <field name="name">iia.wizard_check_sat_status_cfdi_form</field>
+        <field name="model">iia.wizard_check_sat_status_cfdi</field>
+        <field name="arch" type="xml">
+            <form string="Chequear Estado en SAT">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="elementos_cfdi_ids" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="check_status" string="Verificar" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_iia_wizard_check_sat_status_cfdi" model="ir.actions.act_window">
+        <field name="name">Chequear Estado SAT</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name='res_model'>iia.wizard_check_sat_status_cfdi</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_iia_wizard_check_sat_status_cfdi_form"/>
+        <!--        <field name="binding_model_id" ref="iia_boveda_fiscal_ee.iia_boveda_fiscal.cfdi"/>-->
+        <field name="binding_model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
