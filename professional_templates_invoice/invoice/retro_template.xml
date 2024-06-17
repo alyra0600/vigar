@@ -112,7 +112,7 @@
                     <br/>
                     <strong style="white-space:nowrap;">Método de pago: </strong><span t-field="o.l10n_mx_edi_payment_policy" style="margin-bottom:1px;"/>
                     <br/>
-                    <strong style="white-space:nowrap;">Uso CFDI: </strong><span t-field="o.mx_pac_edi_usage" style="margin-bottom:1px;"/>
+                    <strong style="white-space:nowrap;">Uso CFDI: </strong><span t-field="o.l10n_mx_edi_usage" style="margin-bottom:1px;"/>
                     <br/>
                     <strong style="white-space:nowrap;">Vendedor: </strong><span t-esc="o.invoice_user_id.name" style="margin-bottom:1px;"/>
                 </div>
