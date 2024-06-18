@@ -74,13 +74,13 @@
                             <strong style="white-space:nowrap;">Plazo de pago: </strong><span t-field="o.invoice_payment_term_id.name"/>
                         </div>
                         <div t-attf-style="{{div_style}}">
-                            <strong style="white-space:nowrap;">Forma de pago: </strong><span t-field="o.mx_pac_edi_payment_method_id"/>
+                            <strong style="white-space:nowrap;">Forma de pago: </strong><span t-field="o.l10n_mx_edi_payment_method_id"/>
                         </div>
                         <div t-attf-style="{{div_style}}">
-                            <strong style="white-space:nowrap;">Método de pago: </strong><span t-field="o.mx_pac_edi_payment_policy"/>
+                            <strong style="white-space:nowrap;">Método de pago: </strong><span t-field="o.l10n_mx_edi_payment_policy"/>
                         </div>
                         <div t-attf-style="{{div_style}}">
-                            <strong style="white-space:nowrap;">Uso CFDI: </strong><span t-field="o.mx_pac_edi_usage"/>
+                            <strong style="white-space:nowrap;">Uso CFDI: </strong><span t-field="o.l10n_mx_edi_usage"/>
                         </div>
                         <div t-attf-style="{{div_style}}">
                             <strong style="white-space:nowrap;">Vendedor: </strong><span t-esc="o.invoice_user_id.name"/>

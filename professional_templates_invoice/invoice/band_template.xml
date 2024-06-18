@@ -136,13 +136,13 @@
                                 <span t-field="o.invoice_payment_term_id.name" style="margin-bottom:1px;"/>
                             </div>
                             <div>
-                                <span t-field="o.mx_pac_edi_payment_method_id" style="margin-bottom:1px;"/>
+                                <span t-field="o.l10n_mx_edi_payment_method_id" style="margin-bottom:1px;"/>
                             </div>
                             <div>
-                                <span t-field="o.mx_pac_edi_payment_policy" style="margin-bottom:1px;"/>
+                                <span t-field="o.l10n_mx_edi_payment_policy" style="margin-bottom:1px;"/>
                             </div>
                             <div>
-                                <span t-field="o.mx_pac_edi_usage" style="margin-bottom:1px;"/>
+                                <span t-field="o.l10n_mx_edi_usage" style="margin-bottom:1px;"/>
                             </div>
                             <div>
                                 <span t-esc="o.invoice_user_id.name" style="margin-bottom:1px;"/>
