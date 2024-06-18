@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_iia_boveda_fiscal_res_company_form_inherit" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.res.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="iia_boveda_fiscal_info" string="Bóveda fiscal">
+                    <separator string="SAT Sincronización"/>
+                    <group>
+                        <field name="esignature_ids"/>
+                    </group>
+                    <group cols="4">
+                        <group>
+                            <field name="last_cfdi_fetch_date"/>
+                        </group>
+                        <group>
+                            <button name="download_cfdi_invoices_sat" class="oe_stat_button" string="Descargar CFDIs" type="object"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

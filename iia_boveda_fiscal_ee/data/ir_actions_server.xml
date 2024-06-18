@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Actualizar el estado del SAT para validar vigencia-->
+        <record id="boveda_fiscal_cfdi_update_state_process" model="ir.actions.server">
+            <field name="name">Actualizar estado</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    if not rec.move_id and rec.state == 'done':
+                        rec["state"] = "draft"
+            </field>
+        </record>
+
+        <!--Calcular impuestos faltantes por mala configuracion-->
+        <record id="boveda_fiscal_cfdi_set_tax_ids" model="ir.actions.server">
+            <field name="name">Calcular impuestos faltantes</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    rec.set_concept_tax_ids()
+            </field>
+        </record>
+
+        <!--Asignar el diario que se tiene configurado especial para cada tipo de CFDI-->
+        <record id="boveda_fiscal_cfdi_set_journal_id" model="ir.actions.server">
+            <field name="name">Asignar diario</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    rec.set_journal_id()
+            </field>
+        </record>
+
+        <!--Crear o buscar contactos que tengan el mismo RFC-->
+        <record id="boveda_fiscal_cfdi_set_partners" model="ir.actions.server">
+            <field name="name">Asignar contactos</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    rec.set_partner_cfdi()
+            </field>
+        </record>
+
+        <!--Crear los impuestos pagados para aquellos comprobantes SP y P-->
+        <record id="boveda_fiscal_cfdi_create_payment_tax" model="ir.actions.server">
+            <field name="name">Calcular impuestos pagados</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    rec.create_payment_tax()
+            </field>
+        </record>
+
+        <!--Recalcular factura si hubo un error al momento de generar el CFDI y leer el xml-->
+        <record id="boveda_fiscal_cfdi_recalculate_move_id" model="ir.actions.server">
+            <field name="name">Recalcular factura</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                for rec in records:
+                    rec.recalculate_cfdi_invoice()
+            </field>
+        </record>
+
+        <!--Enlazar el cfdi con un movimiento de odoo-->
+        <record id="boveda_fiscal_cfdi_set_move_id" model="ir.actions.server">
+            <field name="name">Asignar movimiento odoo</field>
+            <field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+            <field name="state">code</field>
+            <field name="code">
+                records.set_move_id()
+            </field>
+        </record>
+
+        <!--Cancelar factura sin hacer peticion de cancelacion al SAT-->
+        <record id="boveda_fiscal_account_move_cancel" model="ir.actions.server">
+            <field name="name">Cancelar factura</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="code">
+                for rec in records:
+                    if rec.cfdi_id and rec.state == 'posted':
+                        rec.button_cancel()
+                        rec.cfdi_id["move_id"] = False
+            </field>
+        </record>
+
+        <!--Enlazar cfdis desde las facturas-->
+        <record id="action_iia_account_move_cfdi" model="ir.actions.server">
+            <field name="name">Enlazar CFDI</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="state">code</field>
+            <field name="code">
+                if record.move_type in ['out_invoice', 'in_invoice', 'in_refund'] and not record.l10n_mx_edi_cfdi_uuid_cusom:
+                    action = {
+                        "type": "ir.actions.act_window",
+                        "res_model": "iia.wizard_account_move_cfdi",
+                        "views": [[False, "form"]],
+                        "target": "new",
+                        "context": "{'default_move_id':active_id}",
+                    }
+            </field>
+        </record>
+    </data>
+</odoo>

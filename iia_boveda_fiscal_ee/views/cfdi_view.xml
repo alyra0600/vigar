@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<odoo>
+    <record id="view_iia_boveda_fiscal_cfdi_tree" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.cfdi.tree</field>
+        <field name="model">iia_boveda_fiscal.cfdi</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="CFDIs" decoration-success="state=='done'" decoration-muted="state=='cancel'">
+                <header>
+                    <button name="action_done" string="Procesar" type="object" class="btn btn-primary"/>
+                    <button name="download_massive_xml_zip" string="Descargar ZIP" type="object" class="btn btn-secondary"/>
+                </header>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="uuid" string="UUID"/>
+                <field name="tipo_de_comprobante"/>
+                <field name="fecha"/>
+                <field name="serie" optional="show"/>
+                <field name="folio" optional="show"/>
+                <field name="move_id" optional="show"/>
+                <field name="partner_id_emisor"/>
+                <field name="partner_id_receptor"/>
+                <field name="observations" optional="show"/>
+                <field name="subtotal" sum="Total"/>
+                <field name="total" sum="Total"/>
+                <field name="real_state" invisible="1"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" optional="show"/>
+                <field name="estado_sat" widget="badge" decoration-success="estado_sat == 'Vigente'" decoration-danger="estado_sat == 'Cancelado'" decoration-warning="estado_sat == 'No Encontrado'" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_iia_boveda_fiscal_cfdi_form" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.cfdi.form</field>
+        <field name="model">iia_boveda_fiscal.cfdi</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="CFDI">
+                <header>
+                    <button name="action_done" default_focus="1" string="Procesar" icon="fa-gear" type="object" class="btn btn-primary" invisible="tipo_de_comprobante not in ('SI','I') or (tipo_de_comprobante in ('SI','I') and state != 'draft')"/>
+                    <button name="%(action_transientmodel_wizard)d" string="Crear Orden de Compra" type="action"
+                            class="btn-secondary" invisible="tipo_de_comprobante not in ('SI')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!--Abrir las compras relacionadas al movimiento-->
+                        <button name="action_open_purchase_order" type="object" invisible="po_count == 0"
+                                class="oe_stat_button"
+                                icon="fa-th-list">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="po_count"/>
+                                </span>
+                                <span class="o_stat_text">Compras</span>
+                            </div>
+                        </button>
+
+                        <!--Abrir factura relacionada al movimiento-->
+                        <button string="Factura" name="action_open_invoice" type="object" class="oe_stat_button"
+                                icon="fa-pencil-square-o" invisible="move_id == False"/>
+                    </div>
+                    <group col="3">
+                        <group string="CFDI">
+                            <field name="code"/>
+                            <field name="tipo_de_comprobante"/>
+                            <field name="attachment_id" readonly="1"/>
+                            <field name="fecha"/>
+                            <field name="partner_id_emisor"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="partner_id_receptor"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="version"/>
+                            <field name="serie"/>
+                            <field name="folio"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                            <field name="move_id" invisible="tipo_de_comprobante not in ('I','E','SI','SE')"/>
+                        </group>
+                        <group string="CFDI COMPLEMENTO">
+                            <field name="uuid"/>
+                            <field name="forma_pago"/>
+                            <field name="no_certificado"/>
+                            <field name="condiciones_pago"/>
+                            <field name="subtotal"/>
+                            <field name="moneda"/>
+                            <field name="total"/>
+                            <field name="tipo_de_comprobante"/>
+                            <field name="metodo_pago"/>
+                            <field name="lugar_expedicion"/>
+                        </group>
+
+                        <group string="Importar">
+                            <field name="journal_id" domain="[('type','in',('purchase','sale'))]"/>
+                            <field name="payable_account_id"/>
+                            <field name="account_id"/>
+                            <field name="account_analytic_account_id" invisible="1"/>
+                            <field string="Distribución analítica" name="analytic_distribution"
+                                   widget="analytic_distribution"
+                                   groups="analytic.group_analytic_accounting"
+                                   optional="show"
+                                   options="{'product_field': 'product_tmpl_id', 'account_field': 'account_id', 'force_applicability': 'optional'}"
+                            />
+                            <field name="fiscal_position_id"/>
+                            <field name="tax_iva_id"/>
+                            <field name="tax_isr_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Conceptos e impuestos">
+                            <group string="Conceptos">
+                                <field name="concepto_ids" colspan="2" nolabel="1">
+                                    <tree string="Conceptos" create="false" delete="false">
+                                        <field name="iia_boveda_fiscal_cfdi_id" invisible="1"/>
+                                        <field name="descripcion"/>
+                                        <field name="no_identificacion" optional="hide"/>
+                                        <field name="product_tmpl_id"/>
+                                        <field name="clave_prod_serv"/>
+                                        <field name="cantidad"/>
+                                        <field name="clave_unidad"/>
+                                        <field name="valor_unitario"/>
+                                        <field name="descuento"/>
+                                        <field name="importe" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Impuestos">
+                                <field name="tax_ids" colspan="2" nolabel="1">
+                                    <tree string="Impuestos" editable="bottom" create="0" delete="0">
+                                        <field name="iia_boveda_fiscal_cfdi_id" invisible="1"/>
+                                        <field name="iia_boveda_fiscal_cfdi_concepto_id" string="Concepto" readonly="1"/>
+                                        <field name="base"/>
+                                        <field name="impuesto"/>
+                                        <field name="tipo_factor"/>
+                                        <field name="tasa_cuota"/>
+                                        <field name="importe" sum="Total"/>
+                                        <field name="tax_id" options="{'no_create':True}"/>
+                                    </tree>
+                                </field>
+                            </group>
+
+                        </page>
+                        <page string="Impuestos pagados" invisible="tipo_de_comprobante not in ['P','SP']">
+                            <field name="tax_paymnent_ids">
+                                <tree edit="0" create="0" delete="0">
+                                    <field name="serie"/>
+                                    <field name="folio"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="payment_date"/>
+                                    <field name="paid_amount" optional="show"/>
+                                    <field name="previous_balance" optional="show"/>
+                                    <field name="current_balance" optional="show"/>
+                                    <field name="currency" optional="show"/>
+                                    <field name="currency_rate" optional="show"/>
+                                    <field name="subject_tax" optional="show"/>
+                                    <field name="type_tax" optional="show"/>
+                                    <field name="exempt_tax" optional="hide"/>
+                                    <field name="base_tax" optional="show"/>
+                                    <field name="base_amount" optional="show"/>
+                                    <field name="tax_amount" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="observations"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_iia_boveda_fiscal_cfdi_pivot" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.cfdi.pivot</field>
+        <field name="model">iia_boveda_fiscal.cfdi</field>
+        <field name="arch" type="xml">
+            <pivot string="Analisis de CFDI" disable_linking="True" sample="1">
+                <field name="partner_id_receptor" type="row"/>
+                <field name="fecha" type="col"/>
+                <field name="total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_iia_boveda_fiscal_cfdi_graph" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.cfdi.graph</field>
+        <field name="model">iia_boveda_fiscal.cfdi</field>
+        <field name="arch" type="xml">
+            <graph string="Analisis de CFDI" type="line" sample="1" disable_linking="1">
+                <field name="fecha"/>
+                <field name="total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_iia_boveda_fiscal_cfdi_search" model="ir.ui.view">
+        <field name="name">iia_boveda_fiscal.cfdi.search</field>
+        <field name="model">iia_boveda_fiscal.cfdi</field>
+        <field name="arch" type="xml">
+            <search string="Buscar">
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="uuid"/>
+                <field name="serie"/>
+                <field name="folio"/>
+                <field name="tipo_de_comprobante"/>
+                <field name="fecha"/>
+                <field name="partner_id_emisor"/>
+                <field name="partner_id_receptor"/>
+                <field name="move_id"/>
+                <field name="journal_id"/>
+                <filter name="facturas_clientes" string="Facturas de clientes" domain="[('tipo_de_comprobante','=','I')]"/>
+                <filter name="facturas_proveedor" string="Facturas de proveedor" domain="[('tipo_de_comprobante','=','SI')]"/>
+                <filter name="notas_credito_clientes" string="Notas de crédito de clientes" domain="[('tipo_de_comprobante','=','E')]"/>
+                <filter name="notas_credito_proveedor" string="Notas de crédito de proveedor" domain="[('tipo_de_comprobante','=','SE')]"/>
+                <filter name="rep_clientes" string="REP de clientes" domain="[('tipo_de_comprobante','=','P')]"/>
+                <filter name="rep_proveedor" string="REP de proveedor" domain="[('tipo_de_comprobante','=','SP')]"/>
+                <filter name="nomina_empleados" string="Nómina de empleados" domain="[('tipo_de_comprobante','=','N')]"/>
+                <filter name="nomina_propia" string="Nómina propia" domain="[('tipo_de_comprobante','=','SN')]"/>
+                <filter name="facturas_traslado_clientes" string="Facturas de traslado de clientes" domain="[('tipo_de_comprobante','=','T')]"/>
+                <filter name="facturas_traslado_proveedor" string="Facturas de traslado de proveedor" domain="[('tipo_de_comprobante','=','ST')]"/>
+                <separator orientation="vertical"/>
+                <filter name="state_draft" string="Por procesar" domain="[('state','=','draft')]"/>
+                <filter name="state_done" string="Procesados" domain="[('state','=','done')]"/>
+                <filter name="state_cancel" string="Anulados" domain="[('state','=','cancel')]"/>
+                <separator orientation="vertical"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="groupby_company" string="Empresa" domain="" context="{'group_by':'company_id'}"/>
+                    <separator orientation="vertical"/>
+                    <filter name="groupby_tipo_de_comprobante" string="Tipo de comprobante" context="{'group_by':'tipo_de_comprobante'}"/>
+                    <separator orientation="vertical"/>
+                    <filter name="groupby_fecha" string="Fecha" domain="" context="{'group_by':'fecha'}"/>
+                    <separator orientation="vertical"/>
+                    <filter name="groupby_emisor" string="Emisor" domain="" context="{'group_by':'partner_id_emisor'}"/>
+                    <filter name="groupby_receptor" string="Receptor" context="{'group_by':'partner_id_receptor'}"/>
+                    <separator orientation="vertical"/>
+                    <filter name="groupby_version" string="Versión" domain="" context="{'group_by':'version'}"/>
+                    <filter name="groupby_metodo_pago" string="Método de pago" context="{'group_by':'metodo_pago'}"/>
+                    <filter name="groupby_moneda" string="Moneda" domain="" context="{'group_by':'moneda'}"/>
+                    <separator orientation="vertical"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_boveda_fiscal_cfdi" model="ir.actions.act_window">
+        <field name="name">CFDI</field>
+        <field name="res_model">iia_boveda_fiscal.cfdi</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_groupby_tipo_de_comprobante': 1}</field>
+    </record>
+
+    <!--Menu principal-->
+    <menuitem id="menu_action_boveda_fiscal" parent="account_accountant.menu_accounting" sequence="10" name="Bóveda fiscal"/>
+    <!--Menu de CFDI-->
+    <menuitem action="action_boveda_fiscal_cfdi" id="menu_action_boveda_fiscal_cfdi" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" sequence="100" name="CFDI"/>
+</odoo>

@@ -1,0 +1,65 @@
+<odoo noupdate="1">
+    <record id="ir_cron_CFDI_descarga_emitidos" model="ir.cron">
+        <field name="name">CFDI: Descarga Boveda fiscal emitidos.</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">model.auto_import_cfdi_invoices('emitidos')
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="ir_cron_CFDI_descarga_recibidos" model="ir.cron">
+        <field name="name">CFDI: Descarga Boveda fiscal recibidos.</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">model.auto_import_cfdi_invoices('recibidos')
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+
+    <record id="ir_cron_CFDI_status" model="ir.cron">
+        <field name="name">CFDI: Actualización de estado del SAT.</field>
+        <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+        <field name="state">code</field>
+        <field name="code">model.check_status()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="boveda_fiscal_cfdi_update_state_process" model="ir.actions.server">
+		<field name="name">Actualizar estado</field>
+		<field name="model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+        <field name="binding_model_id" ref="iia_boveda_fiscal_ee.model_iia_boveda_fiscal_cfdi"/>
+		<field name="state">code</field>
+		<field name="code">
+for rec in records:
+    if not rec.move_id and rec.state == 'done':
+        rec["state"] = "draft"
+		</field>
+	</record>
+
+    <record id="boveda_fiscal_account_move_cancel" model="ir.actions.server">
+		<field name="name">Cancelar factura</field>
+		<field name="model_id" ref="account.model_account_move"/>
+		<field name="state">code</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+		<field name="code">
+for rec in records:
+    if rec.cfdi_id and rec.state == 'posted':
+        rec.button_draft()
+        rec.button_cancel()
+        rec.cfdi_id["move_id"] = False
+		</field>
+	</record>
+
+</odoo>

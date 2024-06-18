@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="multi_file_attach_xmls_wizard_form_view" model="ir.ui.view">
+        <field name="name">multi.file.attach.xmls.wizard.form</field>
+        <field name="model">multi.file.attach.xmls.wizard</field>
+        <field name="arch" type="xml">
+            <form class="form-xml">
+                <sheet>
+                    <field name="filedata_file"  widget="many2many_binary" required="1" placeholder="Choose xml files to import..."/>
+                    <field name="filedata_name" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="import_file" string="Cargar" type="object" class="btn-primary"/>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="attach_xmls_wizard_action" model="ir.actions.act_window">
+        <field name="name">Importar múltiples XML</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name='res_model'>multi.file.attach.xmls.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="multi_file_attach_xmls_wizard_form_view"/>
+        <field name="context">{'l10n_mx_edi_invoice_type': 'in'}</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem action="attach_xmls_wizard_action" id="menu_atach_xmls_wizard" name="Importar Múltiples XML" parent="menu_action_boveda_fiscal" sequence="11"/>
+</odoo>

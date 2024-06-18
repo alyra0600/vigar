@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="category_boveda_fiscal" model="ir.module.category">
+            <field name="name">Bóveda fiscal</field>
+            <field name="sequence">1000</field>
+        </record>
+
+        <record id="user_type_boveda_fiscal" model="ir.module.category">
+            <field name="name">Bóveda fiscal</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record id="user_boveda_fiscal" model="res.groups">
+            <field name="name">Usuario bóveda fiscal</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.user_type_boveda_fiscal"/>
+        </record>
+
+        <record id="manager_boveda_fiscal" model="res.groups">
+            <field name="name">Administrador bóveda fiscal</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.user_type_boveda_fiscal"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.user_boveda_fiscal')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_facturas_de_clientes" model="res.groups">
+            <field name="name">Facturas de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_facturas_de_clientes">
+            <field name="name">Ver Facturas de clientes de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'I')]
+            </field>
+            <field name="groups" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_facturas_de_clientes')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_facturas_de_proveedores" model="res.groups">
+            <field name="name">Facturas de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_facturas_de_proveedores">
+            <field name="name">Ver Facturas de proveedores de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'SI')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_facturas_de_proveedores')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_notas_de_credito_de_clientes" model="res.groups">
+            <field name="name">Notas de crédito de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_notas_de_credito_de_clientes">
+            <field name="name">Ver Notas de crédito de clientes de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'E')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_notas_de_credito_de_clientes')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_notas_de_credito_de_proveedores" model="res.groups">
+            <field name="name">Notas de crédito de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_notas_de_credito_de_proveedores">
+            <field name="name">Ver Notas de crédito de proveedores de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'SE')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_notas_de_credito_de_proveedores')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_rep_de_clientes" model="res.groups">
+            <field name="name">REP de clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_rep_de_clientes">
+            <field name="name">Ver REP de clientes de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'P')]
+            </field>
+            <field name="groups" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_rep_de_clientes')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_rep_de_proveedores" model="res.groups">
+            <field name="name">REP de proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_rep_de_proveedores">
+            <field name="name">Ver REP de proveedores de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'SP')]
+            </field>
+            <field name="groups" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_rep_de_proveedores')])]"/>
+        </record>
+
+        <record id="iia_boveda_nomina_empleados" model="res.groups">
+            <field name="name">Nómina de empleados</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_nomina_empleados">
+            <field name="name">Ver Nómina de empleados de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'N')]
+            </field>
+            <field name="groups" eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_nomina_empleados')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_payroll_de_proveedores" model="res.groups">
+            <field name="name">Nómina propia</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_payroll_de_proveedores">
+            <field name="name">Ver Nómina propia de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'SN')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_payroll_de_proveedores')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_factura_traslado_de_clientes" model="res.groups">
+            <field name="name">Factura de traslado clientes</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_factura_traslado_de_clientes">
+            <field name="name">Ver Factura de traslado clientes de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'T')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_factura_traslado_de_clientes')])]"/>
+        </record>
+
+        <record id="iia_boveda_fiscal_factura_traslado_de_proveedores" model="res.groups">
+            <field name="name">Factura de traslado proveedores</field>
+            <field name="category_id" ref="iia_boveda_fiscal_ee.category_boveda_fiscal"/>
+        </record>
+        <record model="ir.rule" id="rule_iia_boveda_fiscal_factura_traslado_de_proveedores">
+            <field name="name">Ver Factura de traslado proveedores de Bóveda fiscal</field>
+            <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('tipo_de_comprobante', '=', 'ST')]
+            </field>
+            <field name="groups"
+                   eval="[(6, 0, [ref('iia_boveda_fiscal_ee.iia_boveda_fiscal_factura_traslado_de_proveedores')])]"/>
+        </record>
+
+
+        <!--Regla multi empresa de los impuestos pagados-->
+        <record model="ir.rule" id="account_cfdi_payment_tax_multi_company_rule">
+            <field name="name">Impuestos pagados por empresa</field>
+            <field name="model_id" ref="model_account_cfdi_payment_tax"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('company_id', 'in', company_ids)]
+            </field>
+        </record>
+    </data>
+</openerp>

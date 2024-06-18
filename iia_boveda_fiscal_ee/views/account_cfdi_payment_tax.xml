@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_cfdi_payment_tax_view_tree" model="ir.ui.view">
+            <field name="name">account_cfdi_payment_tax_view_tree</field>
+            <field name="model">account.cfdi.payment.tax</field>
+            <field name="arch" type="xml">
+                <tree string="Pagos de impuestos" edit="0" create="0" delete="0">
+                    <field name="serie"/>
+                    <field name="folio"/>
+                    <field name="name" optional="show"/>
+                    <field name="recipient_id" optional="show"/>
+                    <field name="emitter_id" optional="show"/>
+                    <field name="cfdi_date" optional="show"/>
+                    <field name="payment_date" optional="show"/>
+                    <field name="paid_amount" sum="paid_amount" optional="show"/>
+                    <field name="previous_balance" sum="previous_balance" optional="show"/>
+                    <field name="current_balance" sum="current_balance" optional="show"/>
+                    <field name="currency" optional="show"/>
+                    <field name="currency_rate" avg="currency_rate" optional="show"/>
+                    <field name="subject_tax" optional="show"/>
+                    <field name="type_tax" optional="show"/>
+                    <field name="exempt_tax" optional="hide"/>
+                    <field name="base_tax" sum="base_tax" optional="show"/>
+                    <field name="base_amount" sum="base_amount" optional="show"/>
+                    <field name="tax_amount" sum="tax_amount" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_cfdi_payment_tax_view_pivot" model="ir.ui.view">
+            <field name="name">account_cfdi_payment_tax_view_pivot</field>
+            <field name="model">account.cfdi.payment.tax</field>
+            <field name="arch" type="xml">
+                <pivot string="Pagos de impuestos" >
+                    <field name="name" type="row"/>
+                    <field name="currency" type="row"/>
+                    <field name="paid_amount" type="measure"/>
+                    <field name="previous_balance" type="measure"/>
+                    <field name="current_balance" type="measure"/>
+                    <field name="type_tax" type="row"/>
+                    <field name="base_amount" type="measure"/>
+                    <field name="tax_amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="account_cfdi_payment_tax_view_search" model="ir.ui.view">
+            <field name="name">account_cfdi_payment_tax_view_search</field>
+            <field name="model">account.cfdi.payment.tax</field>
+            <field name="arch" type="xml">
+                <search string="Pagos de impuestos">
+                    <field name="name"/>
+                    <field name="serie"/>
+                    <field name="folio"/>
+                    <field name="cfdi_type"/>
+                    <filter name="payment_date" date="payment_date"/>
+                    <filter name="type_tax_isr" string="ISR" domain="[('type_tax','=','001')]"/>
+                    <filter name="type_tax_iva" string="IVA" domain="[('type_tax','=','002')]"/>
+                    <filter name="type_tax_ieps" string="IEPS" domain="[('type_tax','=','003')]"/>
+                    <filter name="exempt_tax" string="Impuestos exentos" domain="[('exempt_tax','=',True)]"/>
+                    <filter name="not_exempt_tax" string="Impuestos no exentos" domain="[('exempt_tax','=',False)]"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Documento relacionado" name="group_name" context="{'group_by': 'name'}"/>
+                        <filter string="Fecha de pago" name="group_payment_date" context="{'group_by': 'payment_date'}"/>
+                        <filter name="group_cfdi_id" string="CFDI" domain="[]" context="{'group_by':'cfdi_id'}"/>
+                        <filter name="group_cfdi_type" string="Tipo de comprobante" domain="[]" context="{'group_by':'cfdi_type'}"/>
+                        <filter name="group_type_tax" string="Tipo de impuesto" domain="[]" context="{'group_by':'type_tax'}"/>
+                        <filter name="group_exempt_tax" string="Impuestos exentos" domain="[]" context="{'group_by':'exempt_tax'}"/>
+                        <filter name="group_company_id" string="Empresa" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="account_cfdi_payment_tax_action" model="ir.actions.act_window">
+            <field name="name">Impuestos pagados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.cfdi.payment.tax</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+        <menuitem id="account_cfdi_payment_tax_action_menu" name="Reporte de Complementos" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" action="account_cfdi_payment_tax_action" sequence="200"/>
+
+    </data>
+</odoo>

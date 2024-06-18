@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_iia_wizard_cfdi_account_move_link_form" model="ir.ui.view">
+        <field name="name">iia.wizard_cfdi_account_move_link_form</field>
+        <field name="model">iia.wizard_cfdi_account_move_link</field>
+        <field name="arch" type="xml">
+            <form string="Enlazar con Facturas">
+                <sheet>
+                    <group>
+                        <field name="elementos_ids" nolabel="1" invisible="1"/>
+                        <field name="active_id" invisible="1"/>
+                        <field name="invoice_id" domain="[('id', 'in', elementos_ids)]" options="{'no_create': True}"/>
+                        <field name="force_link" string="Forzar"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="process" string="Enlazar" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_iia_cfdi_account_move_link" model="ir.actions.act_window">
+        <field name="name">Enlazar Facturas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name='res_model'>iia.wizard_cfdi_account_move_link</field>
+        <field name="view_mode">form</field>
+        <field name="search_view_id" ref="account.view_account_move_filter"/>
+        <field name="view_id" ref="view_iia_wizard_cfdi_account_move_link_form"/>
+        <field name="binding_model_id" ref="model_iia_boveda_fiscal_cfdi"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="target">new</field>
+        <field name="context">{'cfdi_link':True}</field>
+    </record>
+
+</odoo>

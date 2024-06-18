@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<odoo>
+	<record id="view_account_invoice_xml_tree" model="ir.ui.view">
+		<field name="name">account.invoice.xml.tree</field>
+		<field name="model">account.invoice.xml</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Comprobantes electrónicos" decoration-success="state=='done'" decoration-muted="state=='cancel'" >
+				<!--field name="account_invoice_lote_xml_id" /-->
+				<field name="company_id" groups="base.group_multi_company" optional="show" />
+				<field name="code" />
+				<field name="tipo_de_comprobante" />
+				<field name="date"/>
+				<field name="fecha_cfdi"/>
+				<field name="folio" />
+				<field name="partner_id" />
+				<field name="total" />
+				<field name="invoice_id" invisible="tipo_de_comprobante != 'SI'"/>
+				<field name="estado_sat"/>
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--object.action_done_multi(cr, uid, context.get('active_ids', []), context=context)-->
+	<!--record id="action_account_invoice_xml_done" model="ir.actions.server">
+		<field name="name">Procesar</field>
+		<field name="model_id" ref="iia_boveda_fiscal.model_account_invoice_xml"/>
+		<field name="state">code</field>
+		<field name="code">
+			object.action_done_multi(context.get('active_ids', []))
+		</field>
+	</record>        
+	<record id="account_invoice_xml_done_more_item" model="ir.values">
+		<field eval="'client_action_multi'" name="key2"/>
+		<field eval="'account.invoice.xml'" name="model"/>
+		<field name="name">Procesar</field>
+		<field eval="'ir.actions.server,%d'%action_account_invoice_xml_done" name="value"/>
+	</record-->
+
+	<record id="view_account_invoice_xml_form" model="ir.ui.view">
+		<field name="name">account.invoice.xml.form</field>
+		<field name="model">account.invoice.xml</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Comprobantes electrónicos">
+				<header>
+					<button name="action_done" default_focus="1" string="Procesar" icon="fa-gear" type="object" invisible="tipo_de_comprobante != 'SI' or (tipo_de_comprobante == 'SI' and state == 'draft')"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<notebook colspan="4">
+						<page string="Información" >
+							<group>
+								<group>
+									<field name="data_file" filename="datas_fname"/>
+									<field name="datas_fname" invisible="1"/>
+									<field name="code"/>
+									<field name="tipo_de_comprobante"/>
+									<field name="date"/>
+									<field name="partner_id" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="estado_sat"/>
+									<field name="company_id"/>
+								</group>
+								<group>
+									<field name="only_header" />
+									<field name="auto_post" />
+									<field name="payable_account_id" domain="[('user_type_id.type', '=', 'payable'),('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="account_xml_id" domain="[('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="account_analytic_account_id" domain="[('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="fiscal_position_id" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="journal_id" domain="[('type', '=', 'purchase'),('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}" />
+									<!--field name="sustento_id" required="1" options="{'no_create': True, 'no_create_edit':True}" /-->
+									<!--field name="tax_iva12_id" domain="[('type_tax_use', '=', 'purchase')]" required="1" options="{'no_create': True, 'no_create_edit':True}" />
+									<field name="tax_iva0_id" domain="[('type_tax_use', '=', 'purchase')]" required="1" options="{'no_create': True, 'no_create_edit':True}" /-->
+								</group>
+							</group>
+						</page>
+
+						<page string="XML" >
+							<group>
+								<group>
+									<field name="ir_attachment_id" />
+									<field name="version" />
+									<field name="serie" />
+									<field name="folio" />
+									<field name="fecha" />
+									<!--field name="sello" /-->
+									<field name="forma_pago" />
+									<field name="no_certificado" />
+									<!--field name="certificado" /-->
+								</group>
+								<group>
+									<field name="condiciones_pago" />
+									<field name="subtotal" />
+									<field name="moneda" />
+									<field name="total" />
+									<field name="tipo_de_comprobante" />
+									<field name="metodo_pago" />
+									<field name="lugar_expedicion" />
+								</group>							
+							</group>
+						</page>
+					</notebook>
+
+					<notebook colspan="4">
+						<page string="Factura" >
+							<group>
+								<field name="invoice_id" />
+							</group>
+							<field name="line_ids"/>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_account_invoice_xml_search" model="ir.ui.view">
+		<field name="name">account.invoice.xml.search</field>
+		<field name="model">account.invoice.xml</field>
+		<field name="arch" type="xml">
+			<search string="Buscar">
+				<field name="code"/>
+				<field name="tipo_de_comprobante"/>
+				<field name="date"/>
+				<field name="fecha_cfdi"/>
+				<field name="partner_id"/>
+				<field name="company_id"/>
+				<filter name="state_draft" string="Por procesar" domain="[('state','=','draft')]"/>
+				<filter name="state_done" string="Procesados" domain="[('state','=','done')]"/>
+				<filter name="state_cancel" string="Anulados" domain="[('state','=','cancel')]"/>
+				<group expand="0" string="Agrupar por...">
+					<filter name="filter_company" string="Compañia" domain="" context="{'group_by':'company_id'}"/>
+					<separator orientation="vertical"/>
+					<filter name="filter_tipo_de_comprobante" string="Tipo de comprobante" domain="" context="{'group_by':'tipo_de_comprobante'}"/>
+					<separator orientation="vertical"/>
+					<filter name="filter_partner_id" string="Empresa" domain="[]" context="{'group_by': 'partner_id'}"/>
+					<separator orientation="vertical"/>
+					<filter name="filter_date" string="Fecha" domain="[]" context="{'group_by': 'date'}"/>
+					<separator orientation="vertical"/>
+					<filter name="filter_fecha_cfdi" string="Fecha CFDI" domain="[]" context="{'group_by': 'fecha_cfdi'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+ <!--record id="view_account_financial_report_search" model="ir.ui.view">
+            <field name="name">account.financial.report.search</field>
+            <field name="model">account.financial.report</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="name" string="Account Report"/>
+                    <field name="type"/>
+                    <field name="account_report_id"/>
+                    <group expand="0" string="Group By">
+                        <filter name="parent_report" string="Parent Report" domain="" context="{'group_by':'parent_id'}"/>
+                        <filter name="report_type" string="Report Type" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record-->
+
+	<record id="view_account_invoice_xml_line_tree" model="ir.ui.view">
+		<field name="name">account.invoice.xml.line.tree</field>
+		<field name="model">account.invoice.xml.line</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Productos" create="false">
+				<field name="company_id" invisible= "1"/>
+				<field name="clave_prod_serv" />
+				<field name="no_identificacion" />
+				<field name="cantidad" />
+				<field name="clave_unidad" />
+				<field name="unidad" />
+				<field name="descripcion" />
+				<field name="valor_unitario" />
+				<field name="descuento" />
+				<field name="importe" sum="Total" />
+				<field name="product_tmpl_id" />
+				<field name="uom_id" />
+				<field name="account_id" required="0" domain="[('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+				<field name="account_invoice_xml_id" invisible= "1"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_account_invoice_xml_line_form" model="ir.ui.view">
+		<field name="name">account.invoice.xml.line.form</field>
+		<field name="model">account.invoice.xml.line</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Productos">
+				<sheet>
+					<group>
+						<group>
+							<field name="clave_prod_serv" />
+							<field name="no_identificacion" />
+							<field name="cantidad" />
+							<field name="clave_unidad" />
+						</group>
+						<group>
+							<field name="unidad" />
+							<field name="descripcion" />
+							<field name="valor_unitario" />
+							<field name="importe" />
+						</group>
+					</group>
+					<group>
+						<field name="company_id" invisible= "1"/>
+						<field name="product_tmpl_id" context="{'default_name': descripcion, 'default_default_code': no_identificacion}"/>
+						<field name="uom_id" options="{'no_create': True, 'no_create_edit':True}" />
+						<field name="unspsc_product_category_id" options="{'no_create': True, 'no_create_edit':True}" />
+						<field name="account_id" required="0" domain="[('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+						<field name="account_analytic_account_id" required="0" domain="[('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+						<field name="account_invoice_xml_id" invisible= "1"/>
+					</group>
+					<field name="tax_ids" />
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_account_invoice_xml_line_tax_tree" model="ir.ui.view">
+		<field name="name">account.invoice.xml.line.tax.tree</field>
+		<field name="model">account.invoice.xml.line.tax</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Impuestos" editable="top">
+				<field name="base" />
+				<field name="impuesto" />
+				<field name="tipo_factor" />
+				<field name="tasa_cuota" />
+				<field name="importe" />
+				<field name="company_id" />
+				<field name="tax_id" domain="[('company_id','=',company_id)]" />
+				<field name="account_invoice_xml_line_id" invisible= "1"/>
+			</tree>
+		</field>
+	</record>
+
+	<!--record id="view_account_invoice_lote_xml_tree" model="ir.ui.view">
+		<field name="name">account.invoice.lote.xml.tree</field>
+		<field name="model">account.invoice.lote.xml</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree string="Lote de comprobantes electrónicos" decoration-success="state=='done'" decoration-muted="state=='cancel'" >
+				<field name="name" />
+				<field name="date" />
+				<field name="state"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="view_account_invoice_xml_lote_form" model="ir.ui.view">
+		<field name="name">account.invoice.lote.xml.form</field>
+		<field name="model">account.invoice.lote.xml</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Lote de comprobantes electrónicos">
+				<header>
+					<button name="action_done" default_focus="1" string="Procesar" icon="fa-gear" type="object" states="draft"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="name" required="1"/>
+							<field name="date"/>
+							<field name="data_file" filename="datas_fname"/>
+							<field name="datas_fname" invisible="1"/>
+						</group>
+						<group>
+							<field name="only_header" />
+							<field name="account_id" required="1" />
+							<field name="payable_account_id" />
+							<field name="fiscal_position_id" />
+							<field name="tax_iva12_id" required="1" />
+							<field name="tax_iva0_id" required="1" />
+						</group>
+					</group>
+					<field name="invoice_xml_ids" readonly="1" decoration-success="state=='done'" decoration-muted="state=='cancel'">
+						<tree>
+							<field name="code" />
+							<field name="tipo_de_comprobante" />
+							<field name="date"/>
+							<field name="partner_id" />
+							<field name="invoice_id" attrs="{'invisible':[('tipo_de_comprobante', '!=', '01')]}"/>
+							<field name="retention_id" attrs="{'invisible':[('tipo_de_comprobante', '!=', '07')]}"/>
+							<field name="estado_sat"/>
+							<field name="state"/>
+						</tree>
+					</field>
+
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_account_invoice_lote_xml_search" model="ir.ui.view">
+		<field name="name">account.invoice.lote.xml.search</field>
+		<field name="model">account.invoice.lote.xml</field>
+		<field name="type">search</field>
+		<field name="arch" type="xml">
+			<search string="Buscar comprobantes electrónicos">
+				<group col="10" colspan="4">
+					<field name="date"/>
+					<separator orientation="vertical"/>
+				</group>
+				<newline/>
+				<group expand="0" string="Agrupar por...">
+					<filter string="Fecha" domain="[]" context="{'group_by': 'date'}"/>
+				</group>
+			</search>
+		</field>
+	</record-->
+
+	<!-- Company-restricted Records -->
+	<record model="ir.rule" id="account_invoice_xml">
+		<field name="name">Comprobantes electronicos</field>
+		<field name="model_id" ref="model_account_invoice_xml"/>
+		<field name="global" eval="True"/>
+		<field name="domain_force">
+			[('company_id', 'in', company_ids)]
+		</field>
+	</record>	
+
+	<record id="action_boveda_account_invoice_xml" model="ir.actions.act_window">
+		<field name="name">Facturas</field>
+		<field name="res_model">account.invoice.xml</field>
+		<field name="view_mode">tree,form</field>
+		<field name="context">{'search_default_state_draft': 1}</field>
+	</record>
+	
+	<!--record id="action_account_invoice_lote_xml" model="ir.actions.act_window">
+		<field name="name">Lote de comprobantes electrónicos</field>
+		<field name="res_model">account.invoice.lote.xml</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record-->
+
+	<!--enterprise-->
+	<menuitem action="" id="menu_action_boveda_fiscal" parent="account.menu_finance" sequence="10" name="Bóveda fiscal"/>
+	<!--menuitem action="" id="menu_action_boveda_fiscal" parent="account_accountant.menu_accounting" sequence="10" name="Bóveda fiscal"/-->
+	<menuitem action="action_boveda_account_invoice_xml" id="menu_action_boveda_account_invoice_xml" parent="iia_boveda_fiscal_ee.menu_action_boveda_fiscal" sequence="10" name="Facturas"/>
+
+</odoo>
