@@ -1,0 +1,2 @@
+xmltodict==0.13.0
+cfdiclient==1.5.6
