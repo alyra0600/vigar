@@ -121,7 +121,7 @@
                                 </tr>                                
 				<tr>
                                     <td>
-                                        <strong>Condiciones de pago:</strong> <span t-field="o.x_studio_condiciones_de_pago_1"/>
+                                        <strong>Condiciones de pago:</strong> <span t-field="o.invoice_payment_term_id"/>
                                     </td>
                                 </tr>
 
