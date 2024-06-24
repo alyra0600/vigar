@@ -91,7 +91,7 @@
                                     </td>
                                 </tr>
                             </thead>
-                            <tbody style="font-size:11px !important" >
+                            <tbody style="font-size:11px !important">
                                 <tr>
                                     <td>
                                         <strong>Nombre comercial:</strong> <span t-field="o.partner_shipping_id"/>
@@ -115,13 +115,13 @@
                                         <strong>Fecha de vencimiento:</strong> <span t-field="o.invoice_date_due"/>
                                         <strong>Vendedor:</strong> <span t-field="o.invoice_user_id"/>
                                         <t t-if="o.invoice_origin">
-                                            <strong>Pedido:</strong> <span t-field="o.invoice_origin"/> <span t-field="o.invoice_origin_date" t-options='{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}'/>
+                                            <strong>Pedido:</strong> <span t-field="o.invoice_origin"/> <span t-field="o.invoice_origin_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </t>
                                     </td>
                                 </tr>                                
 				<tr>
                                     <td>
-                                        <strong>Condiciones de pago:</strong> <span t-field="o.x_studio_condiciones_de_pago_1"/>
+                                        <strong>Condiciones de pago:</strong> <span t-field="o.invoice_payment_term_id"/>
                                     </td>
                                 </tr>
 
@@ -137,7 +137,7 @@
                                     </td>
                                 </tr>
                             </thead>
-                            <tbody style="font-size:11px !important" >
+                            <tbody style="font-size:11px !important">
                                 <tr>
                                     <td>
                                         <strong>Calle:</strong> <span t-field="o.partner_shipping_id.street"/>
@@ -149,14 +149,10 @@
                                         <strong>Estado:</strong> <span t-field="o.partner_shipping_id.state_id.name"/>
                                         <br/>
                                         <strong>CP:</strong> <span t-field="o.partner_shipping_id.zip"/>
-                                        <br/>
-                                        <strong>Días de recibo:</strong> <span t-field="o.partner_shipping_id.x_studio_das_de_recibo_2"/>
-                                        <br/>
-                                        <strong>Horario de recibo:</strong> <span t-field="o.partner_shipping_id.x_studio_horario_de_recibo"/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td  style="font-size:10px">
+                                    <td style="font-size:10px">
                                         <span t-field="o.narration"/>
                                     </td>
                                 </tr>
@@ -198,8 +194,7 @@
                                     <td class="py-0 text-center"><span t-field="l.product_id.default_code"/></td>
                                     <td class="py-0"><span t-field="l.product_id.name"/></td>
                                     <td class="py-0 text-end"><span t-field="l.price_unit"/></td>
-                                    <td class="py-0 text-end"><span t-field="l.discount"  t-options='{"widget": "float", "precision": 2}'/></td>
-                                    <td class="py-0 text-end"><span t-field="l.discount_2"  t-options='{"widget": "float", "precision": 2}'/></td>
+                                    <td class="py-0 text-end"><span t-field="l.discount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
                                     <!--td class="py-0 text-end"><span>0</span></td-->
                                     <td class="py-0"><span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/></td>                                    
                                     <td class="py-0 text-end"><span t-field="l.price_subtotal"/></td>
@@ -219,7 +214,7 @@
                             <tbody>
                                 <tr>
                                     <td><strong>TOTAL DE UNIDADES:</strong> <span t-esc="quantity"/></td>
-                                    <td><strong>PESO TOTAL:</strong> <span t-esc="weight" t-options='{"widget": "float", "precision": 2}'/> Kg.</td>
+                                    <td><strong>PESO TOTAL:</strong> <span t-esc="weight" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/> Kg.</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
@@ -267,7 +262,7 @@
                                             <t t-else="">
                                                 <td class="py-0"><strong><span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/></strong></td>
                                                 <td class="py-0 text-end o_price_total">
-                                                    <span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']" />
+                                                    <span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
                                                 </td>
                                             </t>
                                         </tr>
@@ -292,8 +287,8 @@
                                 Cualquier firma en este documento se entendera como aceptación a este pagare.</p>
                             </td>
 		    	</tr>
-			<tr  t-if="o.move_type == 'out_refund'" >
-				<td >
+			<tr t-if="o.move_type == 'out_refund'">
+				<td>
 					<span>Referncia de Nota de credito: </span><span t-field="o.ref"/>
     				</td>
 			</tr>
@@ -301,7 +296,7 @@
                     </table>
                 </div>
                 <div class="row pt-2">
-                    <div class="row col-12" id='complement'>
+                    <div class="row col-12" id="complement">
                         <t t-set="cfdi_vals" t-value="o._l10n_mx_edi_get_extra_invoice_report_values()"/>
                         <br/>
                         <div class="row" id="complement">
@@ -345,7 +340,7 @@
                                     </td>
                                 </tr>
                             </thead>
-                            <tbody style="font-size:11px !important" >
+                            <tbody style="font-size:11px !important">
                                 <t t-set="banks" t-value="company.partner_id.bank_ids"/>
                                 <t t-foreach="banks" t-as="b">
                                     <tr>
