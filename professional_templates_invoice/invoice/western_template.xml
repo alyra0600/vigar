@@ -350,13 +350,7 @@
                                         <td><strong>Ref: </strong><span t-field="o.name"/></td>
                                     </tr>
                                 </t>
-                                <tr>
-                                    <td colspan="4" class="text-center" style="font-size:14px;">
-                                        <strong>DEPOSITO A TARJETA BANORTE EN OXXO Y SEVEN 4189-2810-4764-2724</strong>
-                                        <br/>
-                                        Favor de mandar su comprobante de pago a <strong t-attf-style="color:{{style.name_color}};">contabilidad@picaoalimentos.com</strong>
-                                    </td>
-                                </tr>
+                               
                             </tbody>
                         </table>
                     </div>
@@ -375,12 +369,7 @@
 			</span>
                     </div>
                 </div>
-            </div>          
-            <div class="footer p-0 text-center" t-attf-style="color:{{style.text_color}} !important;font-family:{{style.font_family}} !important;">
-                <strong style="font-size:18px">NO SE ACEPTAN PAGOS EN EFECTIVO, SOLO DEPOSITO A CUENTAS ARRIBA MENCIONADAS</strong>
-                <br/>
-                FAVOR DE MANDAR SU COMPROBANTE DE DEPOSITO AL CORREO CON SU REFERENCIA
-            </div>
+            </div>    
         </template>
     </data>
 </odoo>
