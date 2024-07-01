@@ -201,7 +201,8 @@
                                     <td class="py-0 text-end"><span t-field="l.discount"  t-options='{"widget": "float", "precision": 2}'/></td>
                                     <td class="py-0 text-end"><span t-field="l.discount_2"  t-options='{"widget": "float", "precision": 2}'/></td>
                                     <!--td class="py-0 text-end"><span>0</span></td-->
-                                    <td class="py-0"><span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/></td>                                    
+                                    <td class="py-0"><span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/></td>   
+                                                                     
                                     <td class="py-0 text-end"><span t-field="l.price_subtotal"/></td>
                                 </tr>
                                 <t t-if="l.display_type == 'line_section' or l.display_type == 'line_note'">
