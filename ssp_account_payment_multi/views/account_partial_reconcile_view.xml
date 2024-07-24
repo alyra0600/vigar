@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- VIEWS -->
+        <record id="view_account_partial_reconcile_tree" model="ir.ui.view">
+            <field name="name">account.partial.reconcile.tree</field>
+            <field name="model">account.partial.reconcile</field>
+            <field name="arch" type="xml">
+                <tree edit="false" sample="1">
+                    <field name="id"/>
+                    <field name="debit_move_id"/>
+                    <field name="credit_move_id"/>
+                    <field name="full_reconcile_id"/>
+                    <field name="debit_currency_id"/>
+                    <field name="credit_currency_id"/>
+                    <field name="amount"/>
+                    <field name="debit_amount_currency"/>
+                    <field name="credit_amount_currency"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_partial_full_tree" model="ir.ui.view">
+            <field name="name">account.full.reconcile.tree</field>
+            <field name="model">account.full.reconcile</field>
+            <field name="arch" type="xml">
+                <tree edit="false" sample="1">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="exchange_move_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_partial_reconcile_form" model="ir.ui.view">
+            <field name="name">account.partial.reconcile.form</field>
+            <field name="model">account.partial.reconcile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="debit_move_id"/>
+                    <field name="credit_move_id"/>
+                    <field name="full_reconcile_id"/>
+                    <field name="debit_currency_id"/>
+                    <field name="credit_currency_id"/>
+                    <field name="amount"/>
+                    <field name="debit_amount_currency"/>
+                    <field name="credit_amount_currency"/>
+                    <field name="company_id"/>
+                </form>
+            </field>
+        </record>
+        <!-- ACTIONS -->
+        <record id="action_account_full_reconcile" model="ir.actions.act_window">
+            <field name="name">Full Reconcilation</field>
+            <field name="res_model">account.full.reconcile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_partial_full_tree"/>
+        </record>
+
+        <record id="action_account_partial_reconcile" model="ir.actions.act_window">
+            <field name="name">Partial Reconcilation</field>
+            <field name="res_model">account.partial.reconcile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_partial_reconcile_tree"/>
+        </record>
+
+        <menuitem id="menu_action_account_full_reconcile"
+              action="action_account_full_reconcile"
+              parent="account.menu_finance_receivables"
+              sequence="15"/>
+
+        <menuitem id="menu_action_account_partial_reconcile"
+              action="action_account_partial_reconcile"
+              parent="account.menu_finance_receivables"
+              sequence="15"/>
+
+    </data>
+</odoo>

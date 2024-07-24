@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_payment_form_inherited" model="ir.ui.view">
+            <field name="name">account.payment.form.inherited</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_register_multi_payment" id="account_invoice_multi_payment_btn"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'posted' or is_internal_transfer == True or amount_residual ==0 "
+                            string="Pay Partial or Multi"
+                            groups="account.group_account_invoice"/>
+                </xpath>
+                <xpath expr="//div[@name='amount_div']" position="after">
+                    <field string="Amount Remaining" name="amount_residual"
+                           widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </xpath>
+
+                <xpath expr='//sheet' position="inside">
+                    <separator string="Payment Reconcile"
+                               invisible="payment_type not in ['inbound', 'outbound'] or partner_type not in ['customer', 'supplier'] or is_internal_transfer == True"/>
+                    <field name="account_payable_or_receivable" invisible="1"/>
+                    <field name="matched_debit_ids"
+                           invisible="payment_type not in ['inbound', 'outbound'] or partner_type == 'supplier' or is_internal_transfer == True">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="credit_move_id"/>
+                            <field name="debit_move_id"/>
+                            <field name="full_reconcile_id"/>
+                            <field name="amount" string="Importe" sum="Total" widget="monetary"/>
+                        </tree>
+                    </field>
+                    <field name="matched_credit_ids"
+                           invisible="payment_type not in ['inbound', 'outbound'] or partner_type == 'customer' or is_internal_transfer == True">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="debit_move_id"/>
+                            <field name="credit_move_id"/>
+                            <field name="full_reconcile_id"/>
+                            <field name="amount" string="Importe" sum="Total" widget="monetary"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <xpath expr="//field[@name='payment_method_line_id']" position="after">
+                    <field name="not_fiscal_payment_type" string="Tipo de pago no Fiscal"/>
+
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_payment_tree" model="ir.ui.view">
+            <field name="name">account.payment.multi.partial.tree</field>
+            <field name="model">account.payment</field>
+            <field name="priority">30</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <field name="amount_company_currency_signed" position="after">
+                    <field name="amount_residual" class="l10n_ve_alert-info font-weight-bold"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

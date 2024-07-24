@@ -1,0 +1,766 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ssp_account_payment_multi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e-20240409\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-03 16:25+0000\n"
+"PO-Revision-Date: 2024-06-03 12:28-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.3\n"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid ""
+"<span class=\"text-muted\">Add the partial amount to pay in this document\n"
+"                                            </span>"
+msgstr ""
+"<span class=\"text-muted\">Añadir el importe parcial a pagar en este "
+"documento\n"
+"                                            </span>"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__amount_residual
+msgid "Aavailable Amount"
+msgstr "Importe disponible"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment__account_payable_or_receivable
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__account_payable_or_receivable
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__account_payable_or_receivable
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__account_payable_or_receivable
+msgid "Account Payable Or Receivable"
+msgstr "Cuenta por pagar o por cobrar"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Add Payment"
+msgstr "Agregar Pago"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "All partial amounts is zero."
+msgstr "Todos los importes parciales son cero."
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__amount
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__amount
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_residual
+msgid "Amount Due"
+msgstr "Monto adeudado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__amount
+msgid "Amount Payment"
+msgstr "Importe Pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.account_payment_form_inherited
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+msgid "Amount Remaining"
+msgstr "Importe restante"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment__amount_residual
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__amount_residual
+msgid "Amount Residual"
+msgstr "Importe Residual"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "Amount entered {pav} is greater than the invoice debt {lmn} {rsdl}"
+msgstr ""
+"El importe ingresado {pav} es mayor que la deuda de la factura {lmn} {rsdl}"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Assign Pay Complete to invoice"
+msgstr "Asignar pago completo a la factura"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__available_payment_method_line_ids
+msgid "Available Payment Method Line"
+msgstr "Línea de método de pago disponible"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__company_currency_id
+msgid "COmpany Currency"
+msgstr "Moneda de la compañía"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__company_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__company_currency_id
+msgid "Company Currency"
+msgstr "Moneda de la compañía"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Complete Pay"
+msgstr "Pago completo"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__create_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__create_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__create_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__create_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__create_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__create_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial_register__matched_credit_ids
+msgid "Credit journal items that are matched with this journal item."
+msgstr ""
+"Artículos del diario de créditos que coinciden con este artículo del diario."
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__destination_account_2_id
+msgid "Cuenta de diferencias"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__currency_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__currency_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__currency_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__payment_currency_id
+msgid "Currenvy Payment"
+msgstr "Moneda del pago"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_multi_partial_register_list__partner_type__customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__partner_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__partner_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__partner_id
+msgid "Customer/Vendor"
+msgstr "Cliente/Proveedor"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__date_payment
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__date_payment
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Date"
+msgstr "Fecha"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial_register__matched_debit_ids
+msgid "Debit journal items that are matched with this journal item."
+msgstr ""
+"Partidas del diario de débito que coinciden con esta partida del diario."
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__destination_account_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__destination_account_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__destination_account_id
+msgid "Destination Account"
+msgstr "Cuenta Destino"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__payment_difference
+msgid "Diferencias"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__display_name
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__display_name
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__display_name
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__move_id
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Document"
+msgstr "Documento"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_payment_partial
+msgid "Document Account Payment Partial"
+msgstr "Documento Cuenta Pago Parcial"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_id
+msgid "Document Active"
+msgstr "DocumentoActivo"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Document Date"
+msgstr "Fecha de Documento"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__payment_move_ids
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__payment_move_ids
+msgid "Document Sale/Purchase"
+msgstr "Documento Venta/Compra"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Does not allow partial payment invoice with credit or debit"
+msgstr "No permite pago parcial de factura con crédito o débito"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__domain_payment_move_ids
+msgid "Domain Move Id"
+msgstr "Dominio"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__date_due
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_date_due
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__entries_pay_move_id
+msgid "Entries Pay Move"
+msgstr "Entradas del pago"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__account_tag
+msgid "Etiqueta"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Exchange Difference"
+msgstr "Diferencia de cambio"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "For supplier invoices, payment type must be \"Outbound\"."
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__id
+msgid "ID"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.account_payment_form_inherited
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Importe"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__l10n_mx_edi_payment_method_id
+msgid ""
+"Indicates the way the payment was/will be received, where the options could "
+"be: Cash, Nominal Check, Credit Card, etc."
+msgstr ""
+"Indica la forma en que se recibió/se recibirá el pago, donde las opciones "
+"podrían ser: Efectivo, Cheque Nominal, Tarjeta de Crédito, etc."
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Info"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Information Payment"
+msgstr "Información Pago"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__date_invoice
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_date
+msgid "Invoice/Bill Date"
+msgstr "Fecha de factura"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__is_matched
+msgid "Is Matched With a Bank Statement"
+msgstr "Se coteja con un extracto bancario"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__is_reconciled
+msgid "Is Reconciled"
+msgstr "Es reconciliado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__journal_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__journal_id
+msgid "Journal"
+msgstr "Diario"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Journal Entry Info"
+msgstr "Info Entrada de Diario"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte de diario"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__payment_line_ids
+msgid "Journal Items"
+msgstr "Entrada de diario"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_partial__difference_management__keep_open
+msgid "Keep open"
+msgstr "Mantener Abierto"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__write_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__write_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__write_uid
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__write_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__write_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__write_date
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualización en"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__difference_management
+msgid "Manejo de Diferencias"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_partial__difference_management__mark_as_paid
+msgid "Mark as paid"
+msgstr "Marcar como pagado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment__matched_credit_ids
+msgid "Matched Credit"
+msgstr "Crédito igualado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__matched_credit_ids
+msgid "Matched Credits"
+msgstr "Crédito igualado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment__matched_debit_ids
+msgid "Matched Debit"
+msgstr "Débito igualado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__matched_debit_ids
+msgid "Matched Debits"
+msgstr "Débito igualado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__payment_currency_id
+msgid "Moneda Pago"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__payment_method_line_id
+msgid "Método de pago"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__name
+msgid "Number"
+msgstr "Número"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid ""
+"Only invoices with payment state \"not paid\" or \"partial\" and state "
+"\"posted\" can be processed."
+msgstr ""
+"Sólo se podrán procesar facturas con estado de pago \"no pagado\" o "
+"\"parcial\" y estado \"contabilizado\"."
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Open document"
+msgstr "Abrir Documento"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__origin
+msgid "Origin"
+msgstr "Origen"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/list_view_button.xml:0
+#, python-format
+msgid "Pago Multiple"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Paid on"
+msgstr "Pagado en"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__partial_amount
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__amount_partial
+msgid "Partial Amount"
+msgstr "Monto parcial"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+#, python-format
+msgid "Partial Pay"
+msgstr "Pago Parcial"
+
+#. module: ssp_account_payment_multi
+#. odoo-javascript
+#: code:addons/ssp_account_payment_multi/static/src/xml/account_payment.xml:0
+#, python-format
+msgid "Partial assign pay to invoice"
+msgstr "Asignación parcial de pago a factura"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__partner_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_partner
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__partner_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__partner_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__partner_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__partner_type
+msgid "Partner Type"
+msgstr "Tipo de Cliente"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.account_payment_form_inherited
+msgid "Pay Partial or Multi"
+msgstr "Pago parcial"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__payment_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__payment_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__payment_id
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__payment_id
+msgid "Payment"
+msgstr "Pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Payment Date"
+msgstr "Fecha de Pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+msgid "Payment Id"
+msgstr "Id del pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Payment Partial"
+msgstr "Pago parcial"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.account_payment_form_inherited
+msgid "Payment Reconcile"
+msgstr "Pago Reconciliado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__payment_reference
+msgid "Payment Reference"
+msgstr "Referencia de Pago"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register__payment_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__payment_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__payment_type
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__payment_type
+msgid "Payment Type"
+msgstr "Tipo de Pago"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_multi_partial_register_list__l10n_mx_edi_payment_method_id
+msgid "Payment Way"
+msgstr "Método de pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Payment made with"
+msgstr "Pago realizado con"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_multi_partial_register_list__payment_type__inbound
+msgid "Receive"
+msgstr "Recibir"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__ref
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial_register__payment_reference
+msgid ""
+"Reference of the document used to issue this payment. Eg. check number, "
+"file name, etc."
+msgstr ""
+"Referencia del documento utilizado para emitir este pago. P.ej. número de "
+"cheque, nombre de archivo, etc."
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_payment_multi_partial_register
+msgid "Register Multi Partial Payment"
+msgstr "Registrar Pago parcial"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model,name:ssp_account_payment_multi.model_account_payment_multi_partial_register_list
+msgid "Register Multi Partial Payment List"
+msgstr "Registrar Pago parcial"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/models/account_payment.py:0
+#, python-format
+msgid "Register Multi Payment"
+msgstr "Registrar pago"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Register Multi Payment Partial"
+msgstr "Registrar Pago parcial"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/models/account_move.py:0
+#: model:ir.model,name:ssp_account_payment_multi.model_account_payment_partial_register
+#, python-format
+msgid "Register Partial Payment"
+msgstr "Registrar Pago parcial"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Register Payment Partial"
+msgstr "Registrar Pago parcial"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__amount_residual_signed
+msgid "Residual Company Currency"
+msgstr "Moneda residual de la compañia"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__residual
+msgid "Residual Currency"
+msgstr "Moneda Residual"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_multi_partial_register_list__payment_type__outbound
+msgid "Send"
+msgstr "Enviado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__payment_state
+msgid "Status"
+msgstr "Estado"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__amount_tax_signed
+msgid "Tax Company Currency"
+msgstr "Moneda de la empresa fiscal"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial__origin
+msgid "The document(s) that generated the invoice."
+msgstr "El documento(s) que generó la factura."
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "The partial amount cannot be greater than the  amount in invoices"
+msgstr "El importe parcial no puede ser mayor que el importe en las facturas"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "The partial amount cannot be zero"
+msgstr "El importe parcial no puede ser cero"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_multi_partial_register__currency_id
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial__payment_currency_id
+#: model:ir.model.fields,help:ssp_account_payment_multi.field_account_payment_partial_register__payment_currency_id
+msgid "The payment's currency."
+msgstr "La moneda del pago."
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "The selected invoices must be from the same client."
+msgstr "Las facturas seleccionadas deben ser del mismo cliente."
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid ""
+"The sum of the partial payments cannot be greater than the total amount of "
+"the invoices."
+msgstr ""
+"La suma de los pagos parciales no puede ser mayor que el monto total de las "
+"facturas."
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid ""
+"The sum of your partial amounts is greater than the remaining amount "
+"available."
+msgstr ""
+"La suma de sus montos parciales es mayor que el monto restante disponible."
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_total
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.account_payment_form_inherited
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_partial_form
+msgid "Total"
+msgstr ""
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__amount_total_signed
+msgid "Total Company Currency"
+msgstr "Moneda total de la empresa"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__amount_total
+msgid "Total Currency"
+msgstr "Moneda total"
+
+#. module: ssp_account_payment_multi
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form
+#: model_terms:ir.ui.view,arch_db:ssp_account_payment_multi.view_account_payment_mullti_partial_form_2
+msgid "Total Partial"
+msgstr "Total Parcial"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial_register__active_move_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__amount_untaxed_signed
+msgid "Untaxed Company Currency"
+msgstr "Moneda de la empresa libre de impuestos"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields.selection,name:ssp_account_payment_multi.selection__account_payment_multi_partial_register_list__partner_type__supplier
+msgid "Vendor"
+msgstr "Proveedor"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__wizard_id
+msgid "Wizard"
+msgstr "Asistente"
+
+#. module: ssp_account_payment_multi
+#: model:ir.model.fields,field_description:ssp_account_payment_multi.field_account_payment_partial__wizard_2_id
+msgid "Wizard 2"
+msgstr "Asitente"
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "You must add an invoice to confirm a payment"
+msgstr "Debes agregar una factura para confirmar un pago."
+
+#. module: ssp_account_payment_multi
+#. odoo-python
+#: code:addons/ssp_account_payment_multi/wizard/account_payment_register.py:0
+#, python-format
+msgid "You must select an invoice from the list to process a partial payment."
+msgstr ""
+"Debe seleccionar una factura de la lista para procesar un pago parcial."
