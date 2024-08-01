@@ -125,7 +125,7 @@ class GetCfdiData(models.TransientModel):
     product_qty = fields.Float(string='Cantidad', required=True)
     date_planned = fields.Datetime(string='Fecha Planeada', default=datetime.today())
     product_uom = fields.Many2one('uom.uom', string='Unidad de Medida')
-    # order_id = fields.Many2one('sale.order', string='Order Reference', ondelete='cascade', index=True)
+    order_id = fields.Many2one('sale.order', string='Order Reference', ondelete='cascade', index=True)
     price_unit = fields.Float(string='Precio Unitario', digits='Product Price')
     product_subtotal = fields.Float(string="SubTotal", compute='_compute_total')
 
