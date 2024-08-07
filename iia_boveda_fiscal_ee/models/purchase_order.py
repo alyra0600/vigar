@@ -91,7 +91,7 @@ class PurchaseOrder(models.Model):
                 m.cfdi_id = self.cfdi_origin_id.id
                 m.l10n_mx_edi_cfdi_uuid_cusom = self.cfdi_origin_id.uuid
                 m.ref = self.cfdi_origin_id.folio
-                self.cfdi_origin_id.attachment_id.write({'res_model': 'account.move',
+                self.cfdi_origin_id.attachment_id.sudo().write({'res_model': 'account.move',
                                                          'res_id': m.id})
                 self.cfdi_origin_id.state = 'done'
                 self.cfdi_origin_id.move_id = m.id

@@ -244,12 +244,13 @@ class Cfdi(models.Model):
 		if cfdi_type in ["I", "E"]:
 			move_id = move_id.sudo().search([("move_type", "in", ["out_invoice", "out_refund"]), ("l10n_mx_edi_cfdi_uuid", "=", uuid),("state","=","posted"), ("cfdi_id","=", False)], limit=1)
 		elif cfdi_type in ["SI", "SE"]:
+			invoice_date = xml_data['Comprobante']['@Fecha'] if '@Fecha' in xml_data['Comprobante'] else ""
 			folio = xml_data['Comprobante']['@Folio'] if '@Folio' in xml_data['Comprobante'] else ''
-			move_id = self.env['account.move'].sudo().search([('partner_id', '=', emitter_partner_id.id), ('ref', 'ilike', folio), ('move_type', 'in', ['in_invoice', 'in_refund']),("cfdi_id","=",False),("state","=","posted"), ("cfdi_id","=", False)], limit=1)
+			move_id = self.env['account.move'].sudo().search([('partner_id', '=', emitter_partner_id.id), ('ref', '=', folio), ('move_type', 'in', ['in_invoice', 'in_refund']),("cfdi_id","=",False),("state","=","posted"),("invoice_date","=",invoice_date[:10])], limit=1)
 			if not move_id:
 				if '@Serie' in xml_data['Comprobante']:
 					folio = xml_data['Comprobante']['@Serie'] + folio
-					move_id = self.env['account.move'].sudo().search([('partner_id', '=', emitter_partner_id.id), ('ref', '=', folio), ('move_type', 'in', ['in_invoice', 'in_refund']),("cfdi_id","=",False),("state","=","posted")], limit=1)
+					move_id = self.env['account.move'].sudo().search([('partner_id', '=', emitter_partner_id.id), ('ref', '=', folio), ('move_type', 'in', ['in_invoice', 'in_refund']),("cfdi_id","=",False),("state","=","posted"),("invoice_date","=",invoice_date[:10])], limit=1)
 				if not move_id:
 					amount_untaxed = xml_data['Comprobante']['@SubTotal'] if '@SubTotal' in xml_data['Comprobante'] else 0
 					invoice_date = xml_data['Comprobante']['@Fecha'] if '@Fecha' in xml_data['Comprobante'] else ""
@@ -587,28 +588,29 @@ class Cfdi(models.Model):
 					if payments:
 						for payment in payments:
 							if payment.get("@ObjetoImpDR") and payment.get("@ObjetoImpDR") == '02':
-								payment_taxes = payment["pago20:ImpuestosDR"]["pago20:TrasladosDR"]["pago20:TrasladoDR"]
-								payment_taxes = self.get_data_iterable(payment_taxes)
-								if payment_taxes:
-									for payment_tax in payment_taxes:
-										payment_tax_data = {
-											"name": payment["@IdDocumento"],
-											"serie": payment.get("@Serie"),
-											"folio": payment.get("@Folio"),
-											"currency": payment["@MonedaDR"],
-											"currency_rate": payment["@EquivalenciaDR"],
-											"paid_amount": payment["@ImpPagado"],
-											"previous_balance": payment["@ImpSaldoAnt"],
-											"current_balance": payment["@ImpSaldoInsoluto"],
-											"subject_tax": payment["@ObjetoImpDR"],
-											"payment_date": payment_date[0],
-											"tax_amount": payment_tax.get("@ImporteDR"),
-											"base_amount": payment_tax["@BaseDR"],
-											"type_tax": payment_tax["@ImpuestoDR"],
-											"base_tax": float(payment_tax["@TasaOCuotaDR"]) * 100 if payment_tax.get("@TasaOCuotaDR") else 0,
-											"exempt_tax": True if payment_tax.get("@TipoFactorDR") == 'Exento' else False,
-										}
-										payment_tax_list.append(Command.create(payment_tax_data))
+								if payment["pago20:ImpuestosDR"] and payment["pago20:ImpuestosDR"].get("pago20:TrasladosDR"):
+									payment_taxes = payment["pago20:ImpuestosDR"]["pago20:TrasladosDR"]["pago20:TrasladoDR"]
+									payment_taxes = self.get_data_iterable(payment_taxes)
+									if payment_taxes:
+										for payment_tax in payment_taxes:
+											payment_tax_data = {
+												"name": payment["@IdDocumento"],
+												"serie": payment.get("@Serie"),
+												"folio": payment.get("@Folio"),
+												"currency": payment["@MonedaDR"],
+												"currency_rate": payment["@EquivalenciaDR"],
+												"paid_amount": payment["@ImpPagado"],
+												"previous_balance": payment["@ImpSaldoAnt"],
+												"current_balance": payment["@ImpSaldoInsoluto"],
+												"subject_tax": payment["@ObjetoImpDR"],
+												"payment_date": payment_date[0],
+												"tax_amount": payment_tax.get("@ImporteDR"),
+												"base_amount": payment_tax["@BaseDR"],
+												"type_tax": payment_tax["@ImpuestoDR"],
+												"base_tax": float(payment_tax["@TasaOCuotaDR"]) * 100 if payment_tax.get("@TasaOCuotaDR") else 0,
+												"exempt_tax": True if payment_tax.get("@TipoFactorDR") == 'Exento' else False,
+											}
+											payment_tax_list.append(Command.create(payment_tax_data))
 			if payment_tax_list:
 				cfdi_data["tax_paymnent_ids"] = payment_tax_list
 		return cfdi_data
@@ -1122,25 +1124,46 @@ class Cfdi(models.Model):
 	def set_move_id(self):
 		self = self.with_user(1)
 		for rec in self:
+			invoice_date = rec.fecha
 			move_id = self.env["account.move"]
 			if rec.tipo_de_comprobante in ["I", "E"]:
 				move_id = move_id.search([("move_type", "in", ["out_invoice", "out_refund"]), ("l10n_mx_edi_cfdi_uuid", "=", rec.uuid), ("state", "=", "posted"), ("cfdi_id", "=", False)], limit=1)
+				if not move_id:
+					serie = rec.serie if rec.serie else ''
+					folio = rec.folio if rec.folio else ''
+					name = serie + str(folio).zfill(8)
+					move_id = self.env["account.move"].sudo().search([("move_type", "in", ["out_invoice", "out_refund"]), ("state","in",["draft","posted"]),("cfdi_id","=",False),("invoice_date","=", invoice_date),("partner_id.vat","=",rec.partner_id_receptor.vat),("name","=",name)], limit=1)
+					if not move_id:
+						serie = rec.serie if rec.serie else ''
+						folio = rec.folio if rec.folio else ''
+						name = serie + str(folio)
+						move_id = self.env["account.move"].sudo().search(
+							[("move_type", "in", ["out_invoice", "out_refund"]), ("state", "=", "draft"),
+							 ("cfdi_id", "=", False), ("invoice_date", "=", invoice_date),
+							 ("partner_id.vat", "=", rec.partner_id_receptor.vat), '|',("name", "=", name),("ref","=",name)], limit=1)
+						if not move_id:
+							uuid = rec.uuid
+							move_id = self.env["account.move"].sudo().search(
+								[("move_type", "in", ["out_invoice", "out_refund"]), ("state", "=", "draft"),
+								 ("cfdi_id", "=", False), ("invoice_date", "=", invoice_date),
+								 ("partner_id.vat", "=", rec.partner_id_receptor.vat), ("ref", "=", uuid)], limit=1)
+
 			elif rec.tipo_de_comprobante in ["SI", "SE"]:
 				folio = rec.folio
-				move_id = self.env['account.move'].search([('partner_id', '=', rec.partner_id_emisor.id), ('ref', 'ilike', folio),
-					 ('move_type', 'in', ['in_invoice', 'in_refund']), ("cfdi_id", "=", False),
+				move_id = self.env['account.move'].search([('partner_id', '=', rec.partner_id_emisor.id), ('ref', '=', folio),
+					 ('move_type', 'in', ['in_invoice', 'in_refund']), ("cfdi_id", "=", False),("invoice_date", "=", invoice_date),
 					 ("state", "=", "posted"), ("cfdi_id", "=", False)], limit=1)
 				if not move_id:
+					
 					if rec.serie:
 						folio = rec.serie + folio
 						move_id = self.env['account.move'].search(
 							[('partner_id', '=', rec.partner_id_emisor.id), ('ref', '=', folio),
-							 ('move_type', 'in', ['in_invoice', 'in_refund']), ("cfdi_id", "=", False),
+							 ('move_type', 'in', ['in_invoice', 'in_refund']), ("cfdi_id", "=", False),("invoice_date", "=", invoice_date),
 							 ("state", "=", "posted")], limit=1)
 					if not move_id:
 						min_amount = rec.subtotal - 1
 						max_amount = rec.subtotal + 1
-						invoice_date = rec.fecha
 						move_id = self.env['account.move'].sudo().search(
 							[('partner_id', '=', rec.partner_id_emisor.id), ('move_type', 'in', ['in_invoice']),
 							 ("cfdi_id", "=", False), ("state", "=", "posted"), ("amount_untaxed", ">=", min_amount),("amount_untaxed", "<=", max_amount),
@@ -1153,3 +1176,40 @@ class Cfdi(models.Model):
 				rec.move_id.write({
 					"cfdi_id": rec.id
 				})
+				
+				#Se simulara el timbrado
+				if move_id.move_type == "out_invoice" and move_id.state in ["draft","posted"]:
+					if rec.attachment_id:
+						rec.attachment_id.sudo().write({
+							'res_model': 'account.move',
+							'res_id': move_id.id,
+						})
+						if len(move_id.l10n_mx_edi_document_ids) == 0:
+							create_edi = self.env['l10n_mx_edi.document'].sudo().create({
+								'attachment_id': self.attachment_id.id,
+								'invoice_ids': move_id.ids,
+								'move_id': move_id.id,
+								'state': 'invoice_sent',
+								'datetime': move_id.create_date
+							})
+							move_id.write({
+								'l10n_mx_edi_document_ids': [(6, False, [create_edi.id])],
+								'l10n_mx_edi_cfdi_uuid': move_id.l10n_mx_edi_cfdi_uuid_cusom,
+								'state': 'posted'
+							})
+						# Se colocaria la factura como timbrada
+						elif move_id.l10n_mx_edi_document_ids:
+							data = {
+								'move_id': move_id.id,
+								'invoice_ids': move_id.ids,
+								'attachment_id': rec.attachment_id.id,
+								'state': 'invoice_sent',
+								'datetime': move_id.create_date
+							}
+							self.env["l10n_mx_edi.document"].sudo().create([data])
+							move_id.write({
+								'l10n_mx_edi_cfdi_uuid': move_id.l10n_mx_edi_cfdi_uuid_cusom
+							})
+					move_id.write({"state": "posted"})
+				elif move_id.state == "draft":
+					move_id.write({"state": "posted"})

@@ -110,7 +110,7 @@
                             <group string="Conceptos">
                                 <field name="concepto_ids" colspan="2" nolabel="1">
                                     <tree string="Conceptos" create="false" delete="false">
-                                        <field name="iia_boveda_fiscal_cfdi_id" invisible="1"/>
+                                        <field name="iia_boveda_fiscal_cfdi_id" column_invisible="1"/>
                                         <field name="descripcion"/>
                                         <field name="no_identificacion" optional="hide"/>
                                         <field name="product_tmpl_id"/>
@@ -126,7 +126,7 @@
                             <group string="Impuestos">
                                 <field name="tax_ids" colspan="2" nolabel="1">
                                     <tree string="Impuestos" editable="bottom" create="0" delete="0">
-                                        <field name="iia_boveda_fiscal_cfdi_id" invisible="1"/>
+                                        <field name="iia_boveda_fiscal_cfdi_id" column_invisible="1"/>
                                         <field name="iia_boveda_fiscal_cfdi_concepto_id" string="Concepto" readonly="1"/>
                                         <field name="base"/>
                                         <field name="impuesto"/>

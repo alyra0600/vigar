@@ -26,7 +26,9 @@
         <field name="name">CFDI: Enlazar movimiento odoo.</field>
         <field name="model_id" ref="model_iia_boveda_fiscal_cfdi"/>
         <field name="state">code</field>
-        <field name="code">model.set_move_id()
+        <field name="code">
+move_ids = model.search([('move_id','=',False),('tipo_de_comprobante','in',['I','SI'])], limit=1000)
+move_ids.set_move_id()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>

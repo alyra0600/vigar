@@ -110,22 +110,82 @@ class AccountMove(models.Model):
 	def button_cancel(self):
 		for rec in self:
 			if rec.cfdi_id:
-				rec.attachment_id.write({
+				rec.attachment_id.sudo().write({
 					'res_model': 'iia_boveda_fiscal.cfdi',
 					'res_id': rec.cfdi_id.id,
 				})
-				rec.cfdi_id.write({
+				rec.cfdi_id.sudo().write({
 					"state": "draft",
 					"move_id": False
 				})
-				rec.write({
+				rec.sudo().write({
 					'auto_post': 'no',
 					'state': 'cancel',
 					'cfdi_id': False,
 					'l10n_mx_edi_cfdi_uuid_cusom': False
 				})
 				if rec.l10n_mx_edi_document_ids:
-					rec.l10n_mx_edi_document_ids.unlink()
+					rec.l10n_mx_edi_document_ids.sudo().unlink()
 			else:
 				res = super().button_cancel()
 				return res
+
+
+	def set_cfdi_id(self):
+		for rec in self:
+			if not rec.cfdi_id:
+				domain = [
+					("partner_id_receptor.vat","=",rec.partner_id.vat),
+					("tipo_de_comprobante","=","I"),
+					("serie","=",rec.sequence_prefix),
+					("folio","=",rec.sequence_number),
+					("fecha","=",rec.invoice_date),
+					("move_id","=",False)
+				]
+				cfdi_id = self.env["iia_boveda_fiscal.cfdi"].sudo().search(domain, limit=1)
+				if cfdi_id:
+					cfdi_id.write({
+						"move_id": rec.id,
+						"state": "done"
+					})
+					rec.write({
+						"cfdi_id": cfdi_id.id
+					})
+
+					# Se simulara el timbrado
+					if rec.move_type == "out_invoice" and rec.state in ["draft", "posted"]:
+						if rec.attachment_id:
+							rec.attachment_id.sudo().write({
+								'res_model': 'account.move',
+								'res_id': rec.id,
+							})
+							if len(rec.l10n_mx_edi_document_ids) == 0:
+								create_edi = self.env['l10n_mx_edi.document'].sudo().create({
+									'attachment_id': rec.attachment_id.id,
+									'invoice_ids': rec.ids,
+									'move_id': rec.id,
+									'state': 'invoice_sent',
+									'datetime': rec.create_date
+								})
+								rec.write({
+									'l10n_mx_edi_document_ids': [(6, False, [create_edi.id])],
+									'l10n_mx_edi_cfdi_uuid': rec.l10n_mx_edi_cfdi_uuid_cusom,
+									'state': 'posted'
+								})
+							# Se colocaria la factura como timbrada
+							elif rec.l10n_mx_edi_document_ids:
+								data = {
+									'move_id': rec.id,
+									'invoice_ids': rec.ids,
+									'attachment_id': rec.attachment_id.id,
+									'state': 'invoice_sent',
+									'datetime': rec.create_date
+								}
+								self.env["l10n_mx_edi.document"].sudo().create([data])
+								rec.write({
+									'l10n_mx_edi_cfdi_uuid': rec.l10n_mx_edi_cfdi_uuid_cusom
+								})
+					if rec.state == "draft":
+						rec.sudo().write({
+							"state": "posted"
+						})

@@ -116,5 +116,15 @@
                     }
             </field>
         </record>
+
+        <record id="boveda_fiscal_cfdi_set_move_id_invoice" model="ir.actions.server">
+            <field name="name">Asignar CFDI saldos</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="state">code</field>
+            <field name="code">
+                records.set_cfdi_id()
+            </field>
+        </record>
     </data>
 </odoo>
