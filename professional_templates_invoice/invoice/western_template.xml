@@ -281,7 +281,7 @@
                                 <p class="py-0 my-0 text-center">En MONTERREY. NUEVO LEON a <span t-field="o.invoice_date"/></p>
                                 <p class="py-0 my-0">Debe(mos) y pagare(mos) incondicionalmente por este documento a la orden de: <span t-field="company.name"/><br/> 
                                 La cantidad de: <span t-field="o.amount_total"/> (<span t-esc="o._l10n_mx_edi_cfdi_amount_to_text()"/>)<br/>
-                                Importe de las mercancías descritas arriba, las que son recibidas a entera satisfacción y que pagaremos en la ciudad de MONTERREY, NUEVO LEON, MEXICO. La liquidación del documento será exigible a su vencimiento y me(nos) obligo(amos) a pagar el interes del 6% mensual por morosidad.<br/> 
+                                Importe de las mercancías descritas arriba, las que son recibidas a entera satisfacción y que pagare(mos) en la ciudad de MONTERREY, NUEVO LEON, MEXICO. La liquidación del documento será exigible a su vencimiento y me(nos) obligo(amos) a pagar el interes del 6% mensual por morosidad.<br/> 
                                 Cualquier firma en este documento se entenderá como aceptación a este pagaré.</p>
                             </td>
 		    	</tr>
