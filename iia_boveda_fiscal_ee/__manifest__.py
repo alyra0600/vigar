@@ -14,7 +14,7 @@
     'author': 'Integra Informatica',
     'website': "integrainformatica.mx",
     'category': 'Accounting & Finance',
-    'version': '17.14',
+    'version': '17.10',
     'depends': ['account', 'l10n_mx_edi', 'purchase'],
     'data': [
         'security/res_groups.xml',
