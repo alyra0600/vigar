@@ -24,3 +24,11 @@ class AccountPaymentReport(models.TransientModel):
     subtotal_payment = fields.Float(string="Subtotal pagado")
     rfc_emitter = fields.Char(string="RFC emisor")
     rfc_receiver = fields.Char(string="RFC receptor")
+    folio_factura = fields.Char(string="Folio Fiscal Factura")
+    folio_pago = fields.Char(string="Folio Fiscal Pago")
+    nombre_partner = fields.Char(string="Nombre")
+    entidad_partner = fields.Char(string="Estado")
+    codigo_partner = fields.Char(string="Código")
+    nombre_vendedor = fields.Char(string="Vendedor")
+    equipo_ventas = fields.Char(string="Equipo Ventas")
+    
