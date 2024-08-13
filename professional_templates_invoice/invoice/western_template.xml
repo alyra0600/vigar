@@ -114,6 +114,7 @@
                                         <strong>PLAZO A:</strong> <span t-field="o.days_due"/> días
                                         <strong>Fecha de vencimiento:</strong> <span t-field="o.invoice_date_due"/>
                                         <strong>Vendedor:</strong> <span t-field="o.invoice_user_id"/>
+                                        <strong>Equipo de ventas:</strong> <span t-field="o.team_id"/>
                                         <t t-if="o.invoice_origin">
                                             <strong>Pedido:</strong> <span t-field="o.invoice_origin"/> <span t-field="o.invoice_origin_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </t>
@@ -171,8 +172,8 @@
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">DESCRIPCION</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">P.UNITARIO</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">% D1</th>
-                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">IMPUESTOS</th>
-                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">IMPORTE</th>
+                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">DESCUENTO</th>
+                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">TOTAL PARTIDA</th>
                             </tr>
                         </thead>
                         <tbody style="border-spacing:0 20px;">
@@ -180,13 +181,14 @@
                             <t t-set="quantity" t-value="0"/>
                             <t t-set="discount_amount" t-value="0"/>
                             <t t-set="amount_total" t-value="0"/>
+                            <t t-set="discount_line" t-value="0"/>
                             <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
                             <t t-foreach="lines" t-as="l">                        
                                 <tr class="p-0">
                                     <t t-set="weight" t-value="weight + l.product_id.weight * l.quantity"/>
                                     <t t-set="quantity" t-value="quantity + l.quantity"/>
                                     <t t-set="amount_total" t-value="amount_total + ( l.quantity * l.price_unit )"/>
-                                    <t t-set="discount_amount" t-value="discount_amount + ( l.quantity * l.price_unit * l.discount / 100 )"/>
+                                    <t t-set="discount_amount" t-value="discount_amount + ( l.quantity * l.price_unit * l.discount / 100 )"/>               <t t-set="discount_line" t-value="( l.quantity * l.price_unit * l.discount / 100 )"/>
                                     <td class="py-0 text-end" style="text"><span t-field="l.quantity"/></td>
                                     <td class="py-0 text-center"><span t-field="l.product_uom_id.name"/></td>
                                     <td class="py-0 text-center"><span t-field="l.product_uom_id.unspsc_code_id.code"/></td>
@@ -194,7 +196,7 @@
                                     <td class="py-0"><span t-field="l.product_id.name"/></td>
                                     <td class="py-0 text-end"><span t-field="l.price_unit"/></td>
                                     <td class="py-0 text-end"><span t-field="l.discount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                    <td class="py-0"><span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"/></td>                                    
+                                    <td class="py-0 text-end"><span t-esc="discount_line" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
                                     <td class="py-0 text-end"><span t-field="l.price_subtotal"/></td>
                                 </tr>
                                 <t t-if="l.display_type == 'line_section' or l.display_type == 'line_note'">
