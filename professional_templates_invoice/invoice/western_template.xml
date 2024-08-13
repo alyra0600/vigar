@@ -173,7 +173,7 @@
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">P.UNITARIO</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">% D1</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">DESCUENTO</th>
-                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">TOTAL PARTIDA</th>
+                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">IMPORTE</th>
                             </tr>
                         </thead>
                         <tbody style="border-spacing:0 20px;">
