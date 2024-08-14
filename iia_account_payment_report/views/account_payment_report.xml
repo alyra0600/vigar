@@ -10,7 +10,14 @@
                     <field name="rfc_emitter"/>
                     <field name="invoice_id" widget="many2one"/>
                     <field name="invoice_date"/>
+                    <field name="folio_factura"/>
+                    <field name="folio_pago"/>
                     <field name="rfc_receiver"/>
+                    <field name="codigo_partner"/>
+                    <field name="nombre_partner"/>
+                    <field name="entidad_partner"/>
+                    <field name="nombre_vendedor"/>
+                    <field name="equipo_ventas"/>                    
                     <field name="payment_id" widget="many2one" optional="show"/>
                     <field name="payment_date" optional="show"/>
                     <field name="payment_method_id" widget="many2one" optional="show"/>
