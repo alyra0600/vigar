@@ -89,6 +89,7 @@ class AccountPaymentReportWizard(models.TransientModel):
                 am_credit.id AS payment_id,
                 am_debit.invoice_date,
                 apr.max_date AS payment_date,
+                am.debit.ref as memo_pago,
                 am_debit.l10n_mx_edi_cfdi_uuid as folio_factura,
                 am_credit.l10n_mx_edi_cfdi_uuid as folio_pago,
                 am_credit.journal_id,
