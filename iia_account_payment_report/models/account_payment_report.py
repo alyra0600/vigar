@@ -31,4 +31,5 @@ class AccountPaymentReport(models.TransientModel):
     codigo_partner = fields.Char(string="Código")
     nombre_vendedor = fields.Char(string="Vendedor")
     equipo_ventas = fields.Char(string="Equipo Ventas")
+    memo_pago = fields.Char(string="Memo")
     
