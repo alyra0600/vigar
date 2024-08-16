@@ -104,7 +104,7 @@
                                         <br/>
                                         <strong>Ciudad:</strong> <span t-field="o.partner_id.city"/>
                                         <br/>
-                                        <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong>CP: </strong> <span t-field="o.partner_id.zip"/>
+                                        <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong>CP: </strong> <span t-field="o.partner_id.zip"/> <strong> Codigo cliente: <strong> <span t-field="o.partner_id.company_registri"/>
                                         <br/>
                                         <strong>R.F.C.:</strong> <span t-field="o.partner_id.vat"/> - <span t-field="o.partner_id.l10n_mx_edi_fiscal_regime"/> 
                                     </td>
@@ -171,7 +171,6 @@
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">CODIGO</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">DESCRIPCION</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">P.UNITARIO</th>
-                                <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">% D1</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">DESCUENTO</th>
                                 <th class="text-nowrap" t-attf-style="color:{{style.name_color}};white-space:nowrap;font-weight:1000">IMPORTE</th>
                             </tr>
@@ -195,7 +194,6 @@
                                     <td class="py-0 text-center"><span t-field="l.product_id.default_code"/></td>
                                     <td class="py-0"><span t-field="l.product_id.name"/></td>
                                     <td class="py-0 text-end"><span t-field="l.price_unit"/></td>
-                                    <td class="py-0 text-end"><span t-field="l.discount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
                                     <td class="py-0 text-end"><span t-esc="discount_line" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
                                     <td class="py-0 text-end"><span t-field="l.price_subtotal"/></td>
                                 </tr>
