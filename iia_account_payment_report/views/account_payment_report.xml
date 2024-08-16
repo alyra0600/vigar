@@ -7,31 +7,23 @@
             <field name="model">account.payment.report</field>
             <field name="arch" type="xml">
                 <tree string="Reporte de pagos" create="0" delete="0" edit="0">
-                    <field name="codigo_partner" optional="show"/>
-                    <field name="nombre_partner" optional="show"/>
-                    <field name="rfc_emitter" optional="show"/>
+                    <field name="rfc_emitter"/>
+                    <field name="invoice_id" widget="many2one"/>
+                    <field name="invoice_date"/>
+                    <field name="rfc_receiver"/>
                     <field name="payment_id" widget="many2one" optional="show"/>
                     <field name="payment_date" optional="show"/>
-                    <field name="memo_pago" optional="show"/>
-                    <field name="folio_pago" optional="show"/>
-                    <field name="subtotal_payment" optional="show"/>
+                    <field name="payment_method_id" widget="many2one" optional="show"/>
+                    <field name="currency_id" widget="many2one" optional="show"/>
+                    <field name="invoice_amount" optional="show"/>
+                    <field name="amount_total" optional="show"/>
+                    <field name="journal_id" widget="many2one"/>
                     <field name="iva_amount" optional="show"/>
                     <field name="ieps_amount" optional="show"/>
                     <field name="iva_ret_amount" optional="show"/>
                     <field name="isr_ret_amount" optional="show"/>
-                    <field name="payment_amount" optional="show"/>
-                    <field name="invoice_id" widget="many2one" optional="show"/>
-                    <field name="invoice_date" optional="show"/>
-                    <field name="folio_factura" optional="show"/>
-                    <field name="rfc_receiver" optional="show"/>
-                    <field name="invoice_amount" optional="show"/>
-                    <field name="entidad_partner" optional="show"/>
-                    <field name="nombre_vendedor" optional="show"/>
-                    <field name="equipo_ventas" optional="show"/>                    
-                    <field name="payment_method_id" widget="many2one" optional="show"/>
-                    <field name="currency_id" widget="many2one" optional="show"/>
-                    <field name="amount_total" optional="show"/>
-                    <field name="journal_id" widget="many2one" optional="show"/>
+                    <field name="subtotal_payment" optional="show"/>
+                    <field name="payment_amount"/>
                 </tree>
             </field>
         </record>
