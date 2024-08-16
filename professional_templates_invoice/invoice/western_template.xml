@@ -104,7 +104,7 @@
                                         <br/>
                                         <strong>Ciudad:</strong> <span t-field="o.partner_id.city"/>
                                         <br/>
-                                        <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong>CP: </strong> <span t-field="o.partner_id.zip"/> <strong> Codigo cliente: <strong> <span t-field="o.partner_id.company_registri"/>
+                                        <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong> CP: </strong> <span t-field="o.partner_id.zip"/> <strong> Codigo cliente: <strong> <span t-field="o.partner_id.company_registri"/>
                                         <br/>
                                         <strong>R.F.C.:</strong> <span t-field="o.partner_id.vat"/> - <span t-field="o.partner_id.l10n_mx_edi_fiscal_regime"/> 
                                     </td>
