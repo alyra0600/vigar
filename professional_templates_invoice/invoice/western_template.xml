@@ -187,7 +187,7 @@
                                     <t t-set="weight" t-value="weight + l.product_id.weight * l.quantity"/>
                                     <t t-set="quantity" t-value="quantity + l.quantity"/>
                                     <t t-set="amount_total" t-value="amount_total + ( l.quantity * l.price_unit )"/>
-                                    <t t-set="discount_amount" t-value="discount_amount + ( l.quantity * l.price_unit * l.discount / 100 )"/>               
+                                    <t t-set="discount_amount" t-value="discount_amount + ( l.quantity * l.price_unit * l.discount / 100 )"/>
                                     <t t-set="discount_line" t-value="( l.quantity * l.price_unit * l.discount / 100 )"/>
                                     <td class="py-0 text-end" style="text"><span t-field="l.quantity"/></td>
                                     <td class="py-0 text-center"><span t-field="l.product_uom_id.name"/></td>
