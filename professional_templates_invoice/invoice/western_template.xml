@@ -104,7 +104,11 @@
                                         <br/>
                                         <strong>Ciudad:</strong> <span t-field="o.partner_id.city"/>
                                         <br/>
+<<<<<<< Updated upstream
                                         <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong> CP: </strong> <span t-field="o.partner_id.zip"/> <strong> Codigo cliente: <strong> <span t-field="o.partner_id.company_registri"/>
+=======
+                                        <strong>Estado:</strong> <span t-field="o.partner_id.state_id.name"/> <strong>CP: </strong> <span t-field="o.partner_id.zip" <strong> CODIGO CLIENTE: </strong> <span t-field="o.partner_id.company_registry"/>
+>>>>>>> Stashed changes
                                         <br/>
                                         <strong>R.F.C.:</strong> <span t-field="o.partner_id.vat"/> - <span t-field="o.partner_id.l10n_mx_edi_fiscal_regime"/> 
                                     </td>
@@ -150,7 +154,7 @@
                                         <strong>Estado:</strong> <span t-field="o.partner_shipping_id.state_id.name"/>
                                         <br/>
                                         <strong>CP:</strong> <span t-field="o.partner_shipping_id.zip"/>
-                                    </td>
+                                        </td>
                                 </tr>
                                 <tr>
                                     <td style="font-size:10px">
@@ -188,6 +192,7 @@
                                     <t t-set="quantity" t-value="quantity + l.quantity"/>
                                     <t t-set="amount_total" t-value="amount_total + ( l.quantity * l.price_unit )"/>
                                     <t t-set="discount_amount" t-value="discount_amount + ( l.quantity * l.price_unit * l.discount / 100 )"/>               <t t-set="discount_line" t-value="( l.quantity * l.price_unit * l.discount / 100 )"/>
+                                    <t t-set="discount_line" t-value="( l.quantity * l.price_unit * l.discount / 100 )"/>               <t t-set="discount_line" t-value="( l.quantity * l.price_unit * l.discount / 100 )"/>
                                     <td class="py-0 text-end" style="text"><span t-field="l.quantity"/></td>
                                     <td class="py-0 text-center"><span t-field="l.product_uom_id.name"/></td>
                                     <td class="py-0 text-center"><span t-field="l.product_uom_id.unspsc_code_id.code"/></td>
