@@ -167,7 +167,7 @@ class AccountPaymentReportWizard(models.TransientModel):
             amount_reverse = 0
 
             if invoice_id.tax_totals.get('groups_by_subtotal'):
-                for tax in invoice_id.tax_totals.get('groups_by_subtotal')['Importe sin impuestos']:
+                for tax in invoice_id.tax_totals.get('groups_by_subtotal')['Subtotal']:
                     if "IVA" in tax['tax_group_name'] and not "ret" in str(tax['tax_group_name']).lower():
                         iva += invoice_id.currency_id.round(tax['tax_group_amount'])
                     elif "IEPS" in tax['tax_group_name']:
@@ -182,7 +182,7 @@ class AccountPaymentReportWizard(models.TransientModel):
                     reverse_id = self.env["account.move"].sudo().browse(reconciled_move.get("move_id"))
                     amount_reverse +=reconciled_move.get("amount")
                     if reverse_id.tax_totals:
-                        for tax in reverse_id.tax_totals.get('groups_by_subtotal')['Importe sin impuestos']:
+                        for tax in reverse_id.tax_totals.get('groups_by_subtotal')['Subtotal']:
                             if "IVA" in tax['tax_group_name'] and not "ret" in str(tax['tax_group_name']).lower():
                                 iva_reverse += reverse_id.currency_id.round(tax['tax_group_amount'])
                             elif "IEPS" in tax['tax_group_name']:
