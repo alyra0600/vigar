@@ -127,7 +127,6 @@ class AccountPaymentReportWizard(models.TransientModel):
                 partner.vat as rfc_emitter,
                 partner.complete_name as nombre_partner,
                 company_partner.vat as rfc_receiver,
-                estado.name as entidad_partner,
                 am_credit.id AS invoice_id,
                 am_credit.amount_totaL as invoice_amount,
                 am_debit.id AS payment_id,
@@ -148,7 +147,6 @@ class AccountPaymentReportWizard(models.TransientModel):
             JOIN res_partner partner on partner.id = am_credit.partner_id
             JOIN res_company company on company.id = am_credit.company_id
             JOIN res_partner company_partner on company_partner.id = company.partner_id
-            JOIN res_country_state estado on partner.state_id = estado.id            
 
             WHERE aml_debit.payment_id IS NOT null AND am_credit.move_type = 'in_invoice' AND apr.max_date BETWEEN '{self.initial_date}' 
                   AND '{self.end_date}' AND am_credit.company_id = {self.company_id.id} AND am_credit.state = 'posted'
