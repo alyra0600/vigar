@@ -4,6 +4,8 @@ from collections import OrderedDict
 from datetime import date
 import calendar
 from odoo import api, fields, models, _, Command
+from odoo.addons.base.models.ir_qweb import keep_query
+from werkzeug.urls import url_quote_plus
 from odoo import (api, fields, models)
 from odoo.exceptions import RedirectWarning, ValidationError
 import base64
@@ -90,6 +92,7 @@ class Cfdi(models.Model):
 	
 	@api.model
 	def create(self, vals_list):
+		self = self.with_context(skip_invoice_sync=True, check_move_validity=False)
 		res = super().create(vals_list)
 		for cfdi in res.filtered(lambda move: move.move_id):
 			cfdi.move_id.update({
@@ -147,6 +150,7 @@ class Cfdi(models.Model):
 	# ('T', 'Factura de traslado cliente')
 	# ('ST', 'Factura de traslado proveedor')
 	def create_cfdis(self, attachment_data):
+		self = self.with_context(skip_invoice_sync=True, check_move_validity=False)
 		cfdi_list = []
 		cfdi_ids = self.env["iia_boveda_fiscal.cfdi"]
 		uuids = []
@@ -624,12 +628,13 @@ class Cfdi(models.Model):
 			cfdi_type = rec.tipo_de_comprobante
 			partner_id = rec.partner_id_emisor if cfdi_type == "SI" else rec.partner_id_receptor
 			folio = f"{rec.serie}-{rec.folio}" if rec.serie and rec.folio else f"{rec.serie}" if rec.serie and not rec.folio else f"{rec.folio}" if not rec.serie and rec.folio else ''
+			fecha = rec.fecha if not rec.env.context.get("date") else rec.env.context.get("date")
 			invoice_data = {
 				'move_type': 'in_invoice' if cfdi_type == 'SI' else 'out_invoice' if cfdi_type == 'I' else '',
 				'partner_id': partner_id.id,
-				'date': rec.fecha,
-				'invoice_date': rec.fecha,
-				'invoice_date_due': rec.fecha,
+				'date': fecha,
+				'invoice_date': fecha,
+				'invoice_date_due': fecha,
 				'fiscal_position_id': partner_id.property_account_position_id.id if partner_id.property_account_position_id else rec.fiscal_position_id.id,
 				'ref': folio,
 				'amount_total_signed': rec.total,
@@ -771,13 +776,13 @@ class Cfdi(models.Model):
 		
 		for record in move_ids:
 			try:
-				status = self.env['account.edi.format']._l10n_mx_edi_get_sat_status(record.partner_id_emisor.vat, record.partner_id_receptor.vat, record.total, record.uuid)
-				if status == 'Vigente':
-					record.estado_sat = status
-				elif status == 'Cancelado':
-					record.estado_sat = status
-				elif status == 'No Encontrado':
-					record.estado_sat = status
+				status = env['l10n_mx_edi.document']._fetch_sat_status(record.partner_id_emisor.vat, record.partner_id_receptor.vat, record.total, record.uuid)
+				if status and status["value"] == 'valid':
+					record["estado_sat"] = 'Vigente'
+				elif status and status["value"] == 'cancelled':
+					record["estado_sat"] = "Cancelado"
+				elif status and status["value"] == 'not_found':
+					record["estado_sat"] = "No Encontrado"
 			except Exception as e:
 				record.message_post(body=_("Failure during update of the SAT status: %(msg)s", msg=str(e)))
 	
@@ -868,9 +873,23 @@ class Cfdi(models.Model):
 			'stamp_date': xml_data['Comprobante']['Complemento']['TimbreFiscalDigital']['@FechaTimbrado'].replace('T', ' '),
 			'concepts': xml_data['Comprobante']['Conceptos']['Concepto']
 		}
-		
+
+		# Obtener qr
+		barcode_value_params = keep_query(
+			id=data['uuid'],
+			re=data['supplier_rfc'],
+			rr=data['customer_rfc'],
+			tt=data['amount_total'],
+		)
+		barcode_sello = url_quote_plus(data['sello'][-8:], safe='=/').replace('%2B', '+')
+		barcode_value = url_quote_plus(f'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?{barcode_value_params}&fe={barcode_sello}')
+		barcode_src = f'/report/barcode/?barcode_type=QR&value={barcode_value}&width=180&height=180'
+
+
 		if cfdi_type in ['P', 'SP']:
 			payment_tax_list = []
+			payment_info_list = []
+			related_cfdi_list = []
 			payments_list = xml_data['Comprobante']['Complemento']['pago20:Pagos']['pago20:Pago']
 			payments_list = self.get_data_iterable(payments_list)
 			if payments_list:
@@ -878,9 +897,26 @@ class Cfdi(models.Model):
 					payment_date = payment_list["@FechaPago"][:10],
 					payments = payment_list["pago20:DoctoRelacionado"]
 					payments = self.get_data_iterable(payments)
-					
+					data_info = {
+						"payment_date": payment_list["@FechaPago"],
+						"payment_method": payment_list["@FormaDePagoP"],
+						"currency": payment_list["@MonedaP"],
+						"amount": payment_list["@Monto"],
+					}
+					payment_info_list.append(data_info)
 					if payments:
 						for payment in payments:
+							related_cfdi_data = {
+								"uuid": payment["@IdDocumento"],
+								"folio": payment["@Folio"],
+								"serie": payment["@Serie"],
+								"currency": payment["@MonedaDR"],
+								"partial_number": payment["@NumParcialidad"],
+								"before_amount": payment["@ImpSaldoAnt"],
+								"paid_amount": payment["@ImpPagado"],
+								"ins_amoun": payment["@ImpSaldoInsoluto"],
+							}
+							related_cfdi_list.append(related_cfdi_data)
 							if payment.get("@ObjetoImpDR") and payment.get("@ObjetoImpDR") == '02':
 								payment_taxes = payment["pago20:ImpuestosDR"]["pago20:TrasladosDR"]["pago20:TrasladoDR"]
 								payment_taxes = self.get_data_iterable(payment_taxes)
@@ -907,6 +943,9 @@ class Cfdi(models.Model):
 										}
 										payment_tax_list.append(payment_tax_data)
 						data["payment_taxes"] = payment_tax_list
+			data["payment_info"] = payment_info_list
+			data["related_cfdi"] = related_cfdi_list
+			data["barcode_src"] = barcode_src
 		return data
 	
 	#Obtener la información de las lineas del xml dependiendo del tipo

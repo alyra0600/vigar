@@ -223,6 +223,71 @@
                             </div>
                             <br/>
 
+
+                            <!--DETALLES DEL PAGO-->
+                            <t t-if="o.tipo_de_comprobante in ['P','SP']">
+
+                                <div class="d-flex flex-row">
+                                    <table width="100%"
+                                           style="border-collapse: collapse;border-top-left-radius: 10px;border-top-right-radius: 10px;overflow: hidden;border-spacing: 0;">
+                                        <thead style="border-top:1px solid black;border-bottom:1px solid black;background-color: #B1D6EA;">
+                                            <tr>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Fecha de pago</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Forma de pago</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Moneda</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="cfdi_data['payment_info']" t-as="payment_line">
+                                                <t t-set="payment_method" t-value="o.env['l10n_mx_edi.payment.method'].search([('code', '=', payment_line['payment_method'])], limit=1)" />
+                                                <tr style="font-size:10px;font-weight: normal;border-bottom:.8px solid black;">
+                                                    <td style="text-align: center;" t-esc="payment_line['payment_date']"/>
+                                                    <td style="text-align: center;" t-esc="payment_method.name if payment_method else payment_line['payment_method']"/>
+                                                    <td style="text-align: center;" t-esc="payment_line['currency']"/>
+                                                    <td style="text-align: right;"
+                                                        t-esc="'$' + payment_line['amount']"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+
+                                <div class="d-flex flex-row">
+                                    <table width="100%"
+                                           style="border-collapse: collapse;border-top-left-radius: 10px;border-top-right-radius: 10px;overflow: hidden;border-spacing: 0;">
+                                        <thead style="border-top:1px solid black;border-bottom:1px solid black;background-color: #B1D6EA;">
+                                            <tr>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">UUID</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Serie</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Folio</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Moneda</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">No. Parc</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Imp. Anterior</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Imp. Pagado</th>
+                                                <th rowspan="2" style="font-size:11px;font-weight: bold;">Imp. Insoluto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="cfdi_data['related_cfdi']" t-as="related_line">
+                                                <tr style="font-size:10px;font-weight: normal;border-bottom:.8px solid black;">
+                                                    <td style="text-align: center;" t-esc="related_line['uuid']"/>
+                                                    <td style="text-align: center;" t-esc="related_line['serie']"/>
+                                                    <td style="text-align: center;" t-esc="related_line['folio']"/>
+                                                    <td style="text-align: center;" t-esc="related_line['currency']"/>
+                                                    <td style="text-align: center;" t-esc="related_line['partial_number']"/>
+                                                    <td style="text-align: right;" t-esc="'$' + related_line['before_amount']"/>
+                                                    <td style="text-align: right;" t-esc="'$' + related_line['paid_amount']"/>
+                                                    <td style="text-align: right;" t-esc="'$' + related_line['ins_amoun']"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                            </t>
+
                             <div class="d-flex flex-row" style="font-family: Arial;margin-left:60%">
                                 <!--Totales-->
                                 <table width="100%"
@@ -266,9 +331,12 @@
                             </div>
                         </div>
                         <div class="row border-bottom mt-3 pt-2 pb-3" id="complement">
-                            <div t-if="cfdi_data.get('sello')" class="barcode col-3">
+                            <div t-if="cfdi_data.get('sello') and o.tipo_de_comprobante not in ['P','SP']" class="barcode col-3">
                                 <img alt="Barcode"
                                      t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % quote_plus(                             'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?' + keep_query(                                 re=cfdi_data.get('supplier_rfc'), rr=cfdi_data.get('customer_rfc'),                                 tt='%.*f' % (o.env.company.currency_id.decimal_places, o.total), id=o.uuid)                                 + '&amp;fe=%s' % quote_plus(                                     cfdi_data.get('sello')[-8:], 'utf-8', 'strict', '=/').replace('%2B', '+'))"/>
+                            </div>
+                            <div t-if="o.tipo_de_comprobante in ['P','SP']" class="barcode col-3">
+                                <img alt="Barcode" t-att-src="cfdi_data.get('barcode_src')"/>
                             </div>
                             <div class="complement-details col-9">
                                 <div class="digital-stamp">

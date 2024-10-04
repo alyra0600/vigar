@@ -18,6 +18,7 @@ class AccountMove(models.Model):
 	total_analysis_cfdi = fields.Float(compute="_compute_total_analysis_cfdi", string='Analysis CFDI', store=True)
 	force_post = fields.Boolean(string='Forzar Confirmación', default=False)
 	code_invoice_prepaid = fields.Char(string="Codigo de prepago")
+	x_cfdi_cancel_date = fields.Datetime(string="Fecha de cancelación SAT", compute="compute_cfdi_cancel_date", store=True)
 	
 	def name_get(self):
 		if not self.env.context.get("cfdi_link"):
@@ -31,6 +32,7 @@ class AccountMove(models.Model):
 
 	@api.depends('cfdi_id','amount_total')
 	def _compute_total_analysis_cfdi(self):
+		self = self.with_context(skip_invoice_sync=True, check_move_validity=False)
 		for move in self:
 			move_diff = 0.0
 			if move.cfdi_id:
@@ -43,12 +45,14 @@ class AccountMove(models.Model):
 
 	@api.depends('cfdi_id')
 	def _compute_attachment_id(self):
+		self = self.with_context(skip_invoice_sync=True, check_move_validity=False)
 		for record in self:
 			if record.cfdi_id:
 				record.attachment_id = record.cfdi_id.attachment_id
 
 	@api.depends("cfdi_id","state")
 	def _compute_cfdi_uuid(self):
+		self = self.with_context(skip_invoice_sync=True, check_move_validity=False)
 		for inv in self:
 			if inv.state != 'cancel':
 				inv_cfdi = self.env['iia_boveda_fiscal.cfdi'].search([('move_id', '=', inv.id)])
@@ -56,6 +60,16 @@ class AccountMove(models.Model):
 					inv.l10n_mx_edi_cfdi_uuid_cusom = inv_cfdi.uuid
 				else:
 					inv.l10n_mx_edi_cfdi_uuid_cusom = False
+
+	#OBTENER LA FECHA DE CANCELACIÓN SAT
+	@api.depends("l10n_mx_edi_document_ids","l10n_mx_edi_document_ids.sat_state")
+	def compute_cfdi_cancel_date(self):
+		for rec in self:
+			if rec.l10n_mx_edi_document_ids:
+				cancel_edi_id = rec.l10n_mx_edi_document_ids.filtered(lambda li: li.sat_state == 'cancelled')
+				rec.x_cfdi_cancel_date = cancel_edi_id[0].datetime if cancel_edi_id else False
+			else:
+				rec.x_cfdi_cancel_date = False
 	
 	#Abrir el CFDI con el cual está ligado
 	def action_view_source_cfdi(self):

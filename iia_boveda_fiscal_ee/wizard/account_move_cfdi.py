@@ -47,10 +47,11 @@ class LinkMoveCfdi(models.TransientModel):
 	def process(self):
 		self = self.with_user(1)
 		for record in self:
+			record = record.with_context(skip_invoice_sync=True, check_move_validity=False)
 			if record.cfdi_id:
 				if not record.move_id.l10n_mx_edi_cfdi_uuid_cusom:
 					if float_compare(abs(record.total), abs(record.move_id.amount_total_in_currency_signed), precision_digits=record.currency_id.rounding) == 0 or self.force_link:
-						record.move_id.write({
+						record.move_id.with_context(skip_invoice_sync=True, check_move_validity=False).write({
 							"cfdi_id": record.cfdi_id.id,
 							"attachment_id": record.cfdi_id.attachment_id.id,
 							"l10n_mx_edi_cfdi_uuid_cusom": record.cfdi_id.uuid,
@@ -66,7 +67,7 @@ class LinkMoveCfdi(models.TransientModel):
 										'state': 'invoice_sent',
 										'datetime': record.move_id.create_date
 									})
-									record.move_id.write({
+									record.move_id.with_context(skip_invoice_sync=True, check_move_validity=False).write({
 										'l10n_mx_edi_document_ids': [(6, False, [create_edi.id])],
 										'l10n_mx_edi_cfdi_uuid': record.move_id.l10n_mx_edi_cfdi_uuid_cusom,
 										'state': 'posted'
@@ -80,17 +81,17 @@ class LinkMoveCfdi(models.TransientModel):
 										'datetime': record.move_id.create_date
 									}
 									self.env["l10n_mx_edi.document"].sudo().create([data])
-									record.move_id.write({'l10n_mx_edi_cfdi_uuid': record.move_id.l10n_mx_edi_cfdi_uuid_cusom, 'state': 'posted'})
+									record.move_id.with_context(skip_invoice_sync=True, check_move_validity=False).write({'l10n_mx_edi_cfdi_uuid': record.move_id.l10n_mx_edi_cfdi_uuid_cusom, 'state': 'posted'})
 						if record.cfdi_id.attachment_id:
-							record.cfdi_id.attachment_id.sudo().write({
+							record.cfdi_id.attachment_id.sudo().with_context(skip_invoice_sync=True, check_move_validity=False).write({
 								'res_model': 'account.move',
 								'res_id': record.move_id.id
 							})
 						folio = f"{record.cfdi_id.serie}-{record.cfdi_id.folio}" if record.cfdi_id.serie and record.cfdi_id.folio else f"{record.cfdi_id.serie}" if record.cfdi_id.serie and not record.cfdi_id.folio else f"{record.cfdi_id.folio}" if not record.cfdi_id.serie and record.cfdi_id.folio else ''
-						record.move_id.sudo().write({
+						record.move_id.sudo().with_context(skip_invoice_sync=True, check_move_validity=False).write({
 							'ref': folio
 						})
-						record.cfdi_id.sudo().write({
+						record.cfdi_id.sudo().with_context(skip_invoice_sync=True, check_move_validity=False).write({
 							'move_id': record.move_id.id,
 							'state': 'done',
 							'observations': ''

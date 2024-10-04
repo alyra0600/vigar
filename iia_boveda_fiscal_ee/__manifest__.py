@@ -14,7 +14,7 @@
     'author': 'Integra Informatica',
     'website': "integrainformatica.mx",
     'category': 'Accounting & Finance',
-    'version': '17.14', 
+    'version': '17.18',
     'depends': ['account', 'l10n_mx_edi', 'purchase'],
     'data': [
         'security/res_groups.xml',
@@ -35,6 +35,7 @@
         'views/res_company_view.xml',
         'views/res_config_settings_view.xml',
         'views/res_partner_view.xml',
+        'views/account_payment.xml',
         
         'wizard/account_move_cfdi_view.xml',
         'wizard/attach_xmls_wizard_view.xml',

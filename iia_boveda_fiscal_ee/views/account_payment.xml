@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="boveda_fiscal_account_payment_form" model="ir.ui.view">
+           <field name="name">boveda_fiscal_account_payment_form</field>
+           <field name="model">account.payment</field>
+           <field name="inherit_id" ref="account.view_account_payment_form"/>
+           <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='date']" position="after">
+                   <field name="x_cfdi_cancel_date" invisible="not x_cfdi_cancel_date"/>
+               </xpath>
+
+           </field>
+       </record>
+
+    </data>
+</odoo>
