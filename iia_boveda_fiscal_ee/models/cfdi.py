@@ -195,7 +195,7 @@ class Cfdi(models.Model):
 	def validation_cfdi(self, xml_data, cfdi_type):
 		if '@UUID' in xml_data['Comprobante']['Complemento']['TimbreFiscalDigital']:
 			uuid = xml_data['Comprobante']['Complemento']['TimbreFiscalDigital']['@UUID']
-			cfdi_id = self.env['iia_boveda_fiscal.cfdi'].sudo().search([('uuid', '=', uuid)], limit=1)
+			cfdi_id = self.env['iia_boveda_fiscal.cfdi'].sudo().search([('uuid', '=', uuid),("company_id.id","=",self.env.company.id)], limit=1)
 			if cfdi_id:
 				_logger.info(f"El CFDI con UUID {uuid}, ya existe en la base de datos, se omitirá en el proceso.")
 				return False
@@ -660,7 +660,7 @@ class Cfdi(models.Model):
 						'price_unit': float(line.valor_unitario),
 						'tax_ids': line.mapped("tax_ids.tax_id").ids,
 						'account_id': line.account_id.id if line.account_id else rec.account_id.id if rec.account_id else False,
-						'analytic_distribution': rec.analytic_distribution,
+						'analytic_distribution': line.analytic_distribution if line.analytic_distribution else rec.analytic_distribution,
 						'partner_id': partner_id.id,
 					}
 					
@@ -1137,7 +1137,7 @@ class Cfdi(models.Model):
 					'price_unit': float(linea.valor_unitario),
 					'tax_ids': [(6, 0, tax_ids)],
 					'account_id': linea_account_id,
-					'analytic_distribution': self.analytic_distribution,
+					'analytic_distribution': linea.analytic_distribution if linea.analytic_distribution else self.analytic_distribution,
 					'partner_id': self.move_id.partner_id.id,
 				})
 				

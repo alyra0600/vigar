@@ -20,7 +20,13 @@
                             <group>
                                 <field name="product_tmpl_id"/>
                                 <field name="account_id"/>
-                                <field name="account_analytic_account_id"/>
+                                <field name="account_analytic_account_id" invisible="1"/>
+                                <field string="Distribución analítica" name="analytic_distribution"
+                                   widget="analytic_distribution"
+                                   groups="analytic.group_analytic_accounting"
+                                   optional="show"
+                                   options="{'product_field': 'product_tmpl_id', 'account_field': 'account_id', 'force_applicability': 'optional'}"
+                                />
                                 <field name="cantidad"/>
                                 <field name="clave_unidad"/>
                                 <field name="importe"/>
