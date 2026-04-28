@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_customer_price_discount_tree" model="ir.ui.view">
+        <field name="name">customer.price.discount.tree</field>
+        <field name="model">customer.price.discount</field>
+        <field name="arch" type="xml">
+            <tree string="Precios y Descuentos por Cliente" editable="bottom">
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="price_unit"/>
+                <field name="discount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_customer_price_discount_form" model="ir.ui.view">
+        <field name="name">customer.price.discount.form</field>
+        <field name="model">customer.price.discount</field>
+        <field name="arch" type="xml">
+            <form string="Precio y Descuento por Cliente">
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="product_id"/>
+                        <field name="price_unit"/>
+                        <field name="discount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_customer_price_discount" model="ir.actions.act_window">
+        <field name="name">Precios y Descuentos por Cliente</field>
+        <field name="res_model">customer.price.discount</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_iia_restricciones_root"
+              name="Restricciones de Ventas"
+              parent="sale.sale_menu_root"
+              sequence="99"/>
+
+    <menuitem id="menu_customer_price_discount"
+              name="Precios por Cliente"
+              parent="menu_iia_restricciones_root"
+              action="action_customer_price_discount"
+              sequence="10"
+              groups="sales_team.group_sale_manager"/>
+</odoo>

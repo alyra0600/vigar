@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_cancelled_invoices" model="ir.actions.report">
+        <field name="name">Reporte de Cancelación de Facturas</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">iia_ventas_restricciones.report_cancelled_invoices_doc</field>
+        <field name="report_file">iia_ventas_restricciones.report_cancelled_invoices_doc</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <template id="report_cancelled_invoices_doc">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Reporte de Cancelación de Facturas</h2>
+                    <table class="table table-sm mt-4">
+                        <thead>
+                            <tr>
+                                <th>Número</th>
+                                <th>Fecha Factura</th>
+                                <th>Cliente / Proveedor</th>
+                                <th>Motivo de Cancelación</th>
+                                <th class="text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="doc">
+                                <tr>
+                                    <td><span t-field="doc.name"/></td>
+                                    <td><span t-field="doc.invoice_date"/></td>
+                                    <td><span t-field="doc.partner_id"/></td>
+                                    <td>
+                                        <t t-if="doc.cancellation_reason">
+                                            <span t-field="doc.cancellation_reason"/>
+                                        </t>
+                                        <t t-else="">
+                                            <em class="text-muted">Sin motivo registrado</em>
+                                        </t>
+                                    </td>
+                                    <td class="text-right"><span t-field="doc.amount_total"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <p class="mt-4"><strong>Total de registros: </strong><span t-esc="len(docs)"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_cancelled_invoices_window" model="ir.actions.act_window">
+        <field name="name">Facturas Canceladas</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('move_type', 'in', ['out_invoice', 'in_invoice']), ('state', '=', 'cancel')]</field>
+    </record>
+
+    <menuitem id="menu_cancelled_invoices"
+              name="Facturas Canceladas"
+              parent="menu_iia_restricciones_root"
+              action="action_cancelled_invoices_window"
+              sequence="30"/>
+</odoo>

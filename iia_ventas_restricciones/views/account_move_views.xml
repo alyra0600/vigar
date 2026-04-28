@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Facturas: campos de motivo -->
+    <record id="view_move_form_iia" model="ir.ui.view">
+        <field name="name">account.move.form.iia</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="credit_note_reason"
+                       invisible="move_type not in ['out_refund', 'in_refund']"
+                       readonly="state == 'posted'"
+                       placeholder="Motivo de la nota de crédito"/>
+                <field name="cancellation_reason"
+                       invisible="not cancellation_reason"
+                       readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Pedido de venta: botón guardar precios por cliente -->
+    <record id="view_sale_order_form_iia" model="ir.ui.view">
+        <field name="name">sale.order.form.iia</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button name="action_save_customer_prices"
+                        string="Guardar precios por cliente"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="state not in ['sale', 'done']"
+                        groups="sales_team.group_sale_manager"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
