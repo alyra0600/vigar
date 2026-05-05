@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_iia_restricciones" model="ir.module.category">
+        <field name="name">IIA Restricciones de Ventas</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <record id="group_can_change_price" model="res.groups">
+        <field name="name">Puede modificar precios</field>
+        <field name="category_id" ref="module_category_iia_restricciones"/>
+    </record>
+
+    <record id="group_can_apply_discount" model="res.groups">
+        <field name="name">Puede aplicar descuentos</field>
+        <field name="category_id" ref="module_category_iia_restricciones"/>
+    </record>
+
+    <record id="group_can_create_credit_note" model="res.groups">
+        <field name="name">Puede crear notas de crédito</field>
+        <field name="category_id" ref="module_category_iia_restricciones"/>
+    </record>
+
+    <record id="group_can_cancel_invoice" model="res.groups">
+        <field name="name">Puede cancelar facturas</field>
+        <field name="category_id" ref="module_category_iia_restricciones"/>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+{
+    'name': 'IIA - Restricciones de Ventas',
+    'version': '17.0.1.0.0',
+    'category': 'Sales',
+    'summary': 'Candados de ventas: precios, descuentos, notas de crédito y cancelación de facturas',
+    'author': 'IIA',
+    'depends': ['sale_management', 'account'],
+    'data': [
+        'security/security_groups.xml',
+        'security/ir.model.access.csv',
+        'views/account_move_views.xml',
+        'views/customer_price_discount_views.xml',
+        'views/cancel_invoice_wizard_views.xml',
+        'report/credit_note_report.xml',
+        'report/invoice_cancellation_report.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'license': 'LGPL-3',
+}
