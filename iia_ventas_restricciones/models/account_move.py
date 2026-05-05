@@ -14,8 +14,10 @@ class AccountMove(models.Model):
         return super().action_reverse()
 
     def button_cancel(self):
-        if not self.env.user.has_group('iia_ventas_restricciones.group_can_cancel_invoice'):
-            raise AccessError(_('No tiene permiso para cancelar facturas.'))
+        invoice_types = ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')
+        if any(move.move_type in invoice_types for move in self):
+            if not self.env.user.has_group('iia_ventas_restricciones.group_can_cancel_invoice'):
+                raise AccessError(_('No tiene permiso para cancelar facturas.'))
         if not self.env.context.get('from_cancel_wizard'):
             return {
                 'name': _('Motivo de Cancelación'),
