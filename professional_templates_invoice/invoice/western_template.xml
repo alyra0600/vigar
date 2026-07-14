@@ -340,16 +340,41 @@
                                 </tr>
                             </thead>
                             <tbody style="font-size:11px !important">
-                                <t t-set="banks" t-value="company.partner_id.bank_ids"/>
-                                <t t-foreach="banks" t-as="b">
+                                <!-- Clientes con código interno 70000-79999 ven la cuenta René, el resto la cuenta Vigar -->
+                                <t t-set="codigo_cliente" t-value="(o.partner_id.company_registry or '').strip()"/>
+                                <!-- Hay códigos con caracteres extra (ej. 06057*), tomamos solo los dígitos iniciales -->
+                                <t t-set="codigo_digitos" t-value="codigo_cliente[:len(codigo_cliente) - len(codigo_cliente.lstrip('0123456789'))]"/>
+                                <t t-set="rango_rene" t-value="codigo_digitos != '' and 70000 &lt;= int(codigo_digitos) &lt;= 79999"/>
+                                <t t-if="rango_rene">
                                     <tr>
-                                        <td><strong><span t-field="b.bank_id.name"/></strong></td>
-                                        <td><strong>Cuenta: </strong><span t-field="b.acc_number"/></td>
-                                        <td><strong>Clabe: </strong><span t-field="b.l10n_mx_edi_clabe"/></td>
-                                        <td><strong>Ref: </strong><span t-field="o.name"/></td>
+                                        <td colspan="4" class="py-0 text-center">
+                                            <strong>PRODUCTOS VIGAR, S.A. DE C.V.</strong>
+                                            <br/>
+                                            <strong>Favor de Depositar en: </strong>BANORTE
+                                            <br/>
+                                            <strong>Cuenta: </strong>0887589287 <strong> Suc: </strong>125
+                                            <br/>
+                                            <strong>CLABE: </strong>072580008875892870
+                                        </td>
                                     </tr>
                                 </t>
-                               
+                                <t t-else="">
+                                    <tr>
+                                        <td colspan="4" class="py-0 text-center">
+                                            <strong>PRODUCTOS VIGAR, S.A. DE C.V.</strong>
+                                            <br/>
+                                            <strong>Favor de Depositar en: </strong>BANORTE
+                                            <br/>
+                                            <strong>Cuenta: </strong>038012495 <strong> Suc: </strong>125
+                                            <br/>
+                                            <strong>CLABE: </strong>072580000380124950
+                                            <br/>
+                                            <strong>DEPOSITO A TARJETA BANORTE EN OXXO Y SEVEN: </strong>4189 2810 4680 0489
+                                            <br/>
+                                            Favor de Mandar su Comprobante de pago a: ventas@cachitos.com.mx
+                                        </td>
+                                    </tr>
+                                </t>
                             </tbody>
                         </table>
                     </div>
