@@ -345,7 +345,24 @@
                                 <!-- Hay códigos con caracteres extra (ej. 06057*), tomamos solo los dígitos iniciales -->
                                 <t t-set="codigo_digitos" t-value="codigo_cliente[:len(codigo_cliente) - len(codigo_cliente.lstrip('0123456789'))]"/>
                                 <t t-set="rango_rene" t-value="codigo_digitos != '' and 70000 &lt;= int(codigo_digitos) &lt;= 79999"/>
-                                <t t-if="rango_rene">
+                                <!-- Facturas de la compañía Alsef llevan su propia cuenta en dólares -->
+                                <t t-set="es_alsef" t-value="'ALSEF' in (company.name or '').upper()"/>
+                                <t t-if="es_alsef">
+                                    <tr>
+                                        <td colspan="4" class="py-0 text-center">
+                                            <strong>PRODUCTOS ALSEF, S.A. DE C.V.</strong>
+                                            <br/>
+                                            <strong>Favor de Depositar en: </strong>BANORTE
+                                            <br/>
+                                            <strong>Cuenta: </strong>1150607846 <strong> Suc: </strong>0125
+                                            <br/>
+                                            <strong>CLABE: </strong>072580011506078468
+                                            <br/>
+                                            <strong>CUENTA EN DOLARES AMERICANOS (USD)</strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-elif="rango_rene">
                                     <tr>
                                         <td colspan="4" class="py-0 text-center">
                                             <strong>PRODUCTOS VIGAR, S.A. DE C.V.</strong>
