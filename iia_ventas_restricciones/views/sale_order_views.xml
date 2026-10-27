@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form_iia_restricciones" model="ir.ui.view">
+        <field name="name">sale.order.form.iia.restricciones</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="iia_puede_cambiar_precio" invisible="1"/>
+                <field name="iia_puede_aplicar_descuento" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="readonly" add="not parent.iia_puede_cambiar_precio" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                <attribute name="readonly" add="not parent.iia_puede_aplicar_descuento" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly" add="not parent.iia_puede_cambiar_precio" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+                <attribute name="readonly" add="not parent.iia_puede_aplicar_descuento" separator=" or "/>
+            </xpath>
+            <xpath expr="//button[@name='action_open_discount_wizard']" position="attributes">
+                <attribute name="invisible" add="not iia_puede_aplicar_descuento" separator=" or "/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
